@@ -21,6 +21,8 @@ public class UserServiceImpl implements UserService {
     public void save(User regUser) {
         User user = new User();
         user.setUsername(regUser.getUsername());
+        user.setFirstName(regUser.getFirstName());
+        user.setSecondName(regUser.getSecondName());
         user.setEnabled(true);
         user.setPassword(new BCryptPasswordEncoder().encode(regUser.getPassword()));
         user.setRole("ROLE_USER");

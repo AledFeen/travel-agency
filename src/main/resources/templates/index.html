@@ -25,7 +25,6 @@
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
                 <li sec:authorize="isAuthenticated()"><a th:href="@{/logout}">Logout</a></li>
-
             </ul>
         </div>
     </div>
@@ -34,7 +33,7 @@
 <br>
 <div class="container">
     <h1>Home</h1>
-    Welcome <span sec:authentication="authorities"> User</span>
+    Welcome <span sec:authentication="principal.username"></span><span sec:authentication="authorities"> User</span>
 </div>
 </body>
 </html>

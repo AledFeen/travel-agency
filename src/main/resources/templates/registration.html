@@ -37,7 +37,7 @@
             <h1>Registration</h1>
             <form th:action="@{/registration}" method="post" th:object="${user}">
                 <div class="form-group">
-                    <label class="control-label" for="username"> First Name </label>
+                    <label class="control-label" for="username"> Login </label>
                     <input id="username" class="form-control" th:field="*{username}"
                            required autofocus="autofocus" />
                 </div>
@@ -45,6 +45,16 @@
                     <label class="control-label" for="password"> Password </label> <input
                         id="password" class="form-control" type="password"
                         th:field="*{password}" required autofocus="autofocus" />
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="firstName"> First Name </label>
+                    <input id="firstName" class="form-control" th:field="*{firstName}"
+                           required autofocus="autofocus" />
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="secondName"> Second Name </label>
+                    <input id="secondName" class="form-control" th:field="*{secondName}"
+                           required autofocus="autofocus" />
                 </div>
                 <div class="form-group">
                     <button type="submit" class="btn btn-success">Register</button>
