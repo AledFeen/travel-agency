@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <form th:action="@{/hotel/add}" method="post" enctype="multipart/form-data">
+        Hotel name: <input type="text" name="hotelName"/><br/><br/>
+        Hotel rank: <input type="number" name="rank"/><br/><br/>
+        City: <input type="text" name="city"/><br/><br/>
+        Location: <input type="text" name="location"/><br/><br/>
+        idGroup: <input type="number" name="idGroup"/><br/><br/>
+        <input type="submit" value="Add"/>
+    </form>
+</body>
+</html>

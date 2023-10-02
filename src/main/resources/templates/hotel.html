@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div>
+    <p th:text = "${hotel.id}"></p>
+    <p th:text = "${hotel.hotelName}"></p>
+    <p th:text = "${hotel.rank}"></p>
+    <p th:text = "${hotel.city}"></p>
+    <p th:text = "${hotel.location}"></p>
+</div>
+<h3>Establish</h3>
+<div th:each = "establishItem : ${establishList}">
+    <div>
+        <p><b th:text="${establishItem.id}"></b> <span th:text="${establishItem.name}"></span> | <a th:href="@{/hotel/establish/{establishId}(establishId=${establishItem.id})}">Link...</a></p>
+    </div>
+</div>
+<a th:href="@{/hotel/establish/add/{hotelId}(hotelId=${hotel.id})}">Add Establish</a><p>
+<h3>Facility</h3>
+<div th:each = "facility : ${facilities}">
+    <div>
+        <p><b th:text="${facility.idHotel}"></b> <span th:text="${facility.facilityName}"></span> | <a th:href="@{/hotel/facility/{facilityId}(facilityId=${facility.idFacility})}">Link...</a></p>
+    </div>
+</div>
+<a th:href="@{/hotel/facility/add/{hotelId}(hotelId=${hotel.id})}">Add Facility</a><p>
+</body>
+</html>

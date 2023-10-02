@@ -3,8 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-main
+<label><input type="checkbox" name="country" value="value1" > Checkbox 1</label><br>
+<label><input type="checkbox" name="country" value="value2" > Checkbox 2</label><br>
+<label><input type="checkbox" name="city" value="city1" > Checkbox 1</label><br>
+<label><input type="checkbox" name="city" value="city2" > Checkbox 2</label><br>
 </body>
+<script>
+    $(document).ready(function() {
+        var currentUrl = window.location.pathname;
+
+
+        var urlValues = currentUrl.split('/').pop().split(',');
+
+        $('input[type="checkbox"]').change(function() {
+            var checkboxes = {};
+
+            $('input[type="checkbox"]').each(function() {
+                var checkboxName = $(this).attr('name');
+                var checkboxValue = $(this).val();
+
+                if ($(this).is(':checked')) {
+                    if (!checkboxes[checkboxName]) {
+                        checkboxes[checkboxName] = [];
+                    }
+                    checkboxes[checkboxName].push(checkboxValue);
+                }
+            });
+
+            var redirectUrl = '/';
+
+
+            for (var name in checkboxes) {
+                var values = checkboxes[name].join(',');
+                if (values) {
+                    redirectUrl += (redirectUrl === '/' ? '' : ',') + values;
+                }
+            }
+
+            window.location.href = redirectUrl;
+        });
+
+        $('input[type="checkbox"]').each(function() {
+            var checkboxName = $(this).attr('name');
+            var checkboxValue = $(this).val();
+
+            if (urlValues.includes(checkboxValue) && checkboxName) {
+                $(this).prop('checked', true);
+            }
+        });
+    });
+</script>
 </html>

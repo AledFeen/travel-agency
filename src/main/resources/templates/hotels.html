@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:each = "hotel : ${hotels}">
+    <div>
+        <p><b th:text="${hotel.hotelName}"></b> <span th:text="${hotel.rank}"></span> | <a th:href="@{/hotel/{hotelId}(hotelId=${hotel.id})}">Link...</a></p>
+    </div>
+</div>
+<p><a th:href="@{/hotel/add}">Add new hotel</a></p>
+</body>
+</html>
