@@ -5,11 +5,13 @@
     <title>Title</title>
 </head>
 <body>
-<form th:action="@{/facility/add}" method="post" enctype="multipart/form-data">
+<a th:href="@{/hotel/{idHotel}(idHotel=${idHotel})}">Back</a>
+<form th:action="@{/facility/add}" method="post">
     Hotel name: <input type="text" name="facilityName"/><br/><br/>
     Hotel rank: <input type="text" name="facilityDescription"/><br/><br/>
     <input type="hidden" name="idHotel" th:value="${idHotel}">
     <input type="submit" value="Add"/>
 </form>
+
 </body>
 </html>

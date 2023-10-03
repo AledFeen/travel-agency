@@ -5,11 +5,28 @@
     <title>Title</title>
 </head>
 <body>
+<a th:href="@{/hotel/{idHotel}(idHotel=${facility.idHotel})}">Back</a>
 <div>
-    <p th:text = "${facility.idFacility}"></p>
-    <p th:text = "${facility.facilityName}"></p>
-    <p th:text = "${facility.facilityDescription}"></p>
-    <p th:text = "${facility.idHotel}"></p>
+    <form th:action="@{/facility/update}" method="post">
+        <input type="hidden" name="idFacility" th:value="${facility.idFacility}"/>
+        <label>
+            <h6>Name</h6>
+            <input type="text" name="facilityName" th:value = "${facility.facilityName}"/>
+        </label>
+        <label>
+            <h6>Description</h6>
+            <input type="text" name="facilityDescription" th:value = "${facility.facilityDescription}"/>
+        </label>
+        <input type="hidden" name="idHotel" readonly th:value = "${facility.idHotel}"/>
+        <button type="submit" value="Update">Update</button>
+    </form>
+</div>
+<div>
+    <form th:action="@{/facility/delete}" method="post">
+        <input type="hidden" name="idFacility" th:value="${facility.idFacility}"/>
+        <input type="hidden" name="idHotel" readonly th:value = "${facility.idHotel}"/>
+        <button type="submit" value="Update">Delete</button>
+    </form>
 </div>
 </body>
 </html>

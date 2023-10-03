@@ -8,9 +8,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class EstablishmentDto {
-    int id;
+    int idEstablishment;
     String name;
     String description;
-    int hotelId;
+    int idHotel;
     String type;
 }

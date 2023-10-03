@@ -9,13 +9,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @Controller
 //@RequestMapping("/admin")
-public class AdminController {
+public class HotelController {
     @Autowired
     HotelRepository hotelRepository;
+
+    //////////////////////// Hotels
     @GetMapping("/hotels")
     public String getHotels(Model model){
         model.addAttribute("hotels",hotelRepository.getHotelList());
@@ -41,38 +41,4 @@ public class AdminController {
         return "redirect:/hotel/" + returnedHotel.getId().toString();
     }
 
-    @GetMapping("/hotel/facility/{idFacility}")
-    public String getFacility(@PathVariable int idFacility, Model model) {
-        model.addAttribute("facility", hotelRepository.getFacilityById(idFacility));
-        return "facility";
-    }
-
-    @GetMapping("/hotel/facility/add/{idHotel}")
-    public String addFacility(@PathVariable int idHotel, Model model) {
-        model.addAttribute("idHotel", idHotel);
-        return "add-facility";
-    }
-
-    @PostMapping("/facility/add")
-    public String addFacility(@ModelAttribute("facility") Facility facility, @RequestParam("idHotel") int id) {
-        facility.setIdHotel(id);
-        hotelRepository.addFacilityToHotel(facility);
-        return "redirect:/hotel/facility/add/" + id;
-    }
-
-
-
-
-
-
-    @GetMapping("/hotel/establishment/add/{idHotel}")
-    public String addEstablishment(@PathVariable int idHotel, Model model) {
-        model.addAttribute("idHotel", idHotel);
-        return "add-hotel";
-    }
-
-    @PostMapping("/establishment/add")
-    public String addEstablishment(@ModelAttribute("establish") EstablishmentDto establish, @RequestParam("idHotel") int id) {
-        return "redirect:/hotel/" + id;
-    }
 }
