@@ -2,8 +2,10 @@ package bondarenko.travelagency.controllers;
 
 import bondarenko.travelagency.models.Facility;
 import bondarenko.travelagency.models.Hotel;
+import bondarenko.travelagency.models.Image;
 import bondarenko.travelagency.models.dto.EstablishmentDto;
 import bondarenko.travelagency.repositories.HotelRepository;
+import bondarenko.travelagency.services.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 public class HotelController {
     @Autowired
     HotelRepository hotelRepository;
+    @Autowired
+    ImageService imageService;
 
     //////////////////////// Hotels
     @GetMapping("/hotels")
@@ -27,6 +31,7 @@ public class HotelController {
         model.addAttribute("hotel", hotelRepository.getHotelById(id));
         model.addAttribute("establishList", hotelRepository.getEstablishListByHotelId(id));
         model.addAttribute("facilities", hotelRepository.getFacilitiesByHotelId(id));
+        model.addAttribute("images", imageService.getListImagesByHotelId(id));
         return "hotel";
     }
 

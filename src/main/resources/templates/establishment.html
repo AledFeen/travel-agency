@@ -5,6 +5,34 @@
     <title>Title</title>
 </head>
 <body>
+<a th:href="@{/hotel/{idHotel}(idHotel=${establishment.idHotel})}">Back</a>
+<div>
+    <form th:action="@{/establishment/update}" method="post">
+        <input type="hidden" name="idEstablishment" th:value="${establishment.idEstablishment}"/>
+        <label>
+            <h6>Name</h6>
+            <input type="text" name="name" th:value = "${establishment.name}"/>
+        </label>
+        <label>
+            <h6>Description</h6>
+            <input type="text" name="description" th:value = "${establishment.description}"/>
+        </label>
+        <label>
+            <select name="type">
+                <option th:each="item : ${types}"  th:value="${item.estTypeName}"  th:text="${item.estTypeName}" th:selected="${item.estTypeName == establishment.type}"></option>
+            </select>
+        </label>
 
+        <input type="hidden" name="idHotel" readonly th:value = "${establishment.idHotel} "/>
+        <button type="submit" value="Update">Update</button>
+    </form>
+    <div>
+        <form th:action="@{/establishment/delete}" method="post">
+            <input type="hidden" name="idEstablishment" th:value="${establishment.idEstablishment}"/>
+            <input type="hidden" name="idHotel" readonly th:value = "${establishment.idHotel}"/>
+            <button type="submit" value="Update">Delete</button>
+        </form>
+    </div>
+</div>
 </body>
 </html>

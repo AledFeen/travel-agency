@@ -13,4 +13,5 @@ public class EstablishmentDto {
     String description;
     int idHotel;
     String type;
+
 }

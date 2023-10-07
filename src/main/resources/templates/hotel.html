@@ -12,13 +12,30 @@
     <p th:text = "${hotel.city}"></p>
     <p th:text = "${hotel.location}"></p>
 </div>
+
+<div th:each="img : ${images}">
+    <img th:src="@{/image/{imgId}(imgId=${img.id})}" height="60px"/><br/><br/>
+    <form th:action="@{/image/delete/{id}(id=${img.id})}" method="post">
+        <input type="hidden" name="idHotel" th:value="${hotel.id}">
+        <input type="submit" value="Delete"/>
+    </form>
+</div>
+
+<h3>Image</h3>
+<form th:action="@{/image/add}" method="post" enctype="multipart/form-data">
+    <input type="file" name="file"/><br/><br/>
+    <input type="hidden" name="idHotel" th:value="${hotel.id}">
+    <input type="submit" value="Add"/>
+</form>
+
 <h3>Establish</h3>
 <div th:each = "establishItem : ${establishList}">
     <div>
-        <p><b th:text="${establishItem.id}"></b> <span th:text="${establishItem.name}"></span> | <a th:href="@{/hotel/establish/{establishId}(establishId=${establishItem.id})}">Link...</a></p>
+        <p><b th:text="${establishItem.idEstablishment}"></b> <span th:text="${establishItem.name}"></span> | <a th:href="@{/hotel/establishment/{establishId}(establishId=${establishItem.idEstablishment})}">Link...</a></p>
     </div>
 </div>
-<a th:href="@{/hotel/establish/add/{hotelId}(hotelId=${hotel.id})}">Add Establish</a><p>
+<a th:href="@{/hotel/establishment/add/{hotelId}(hotelId=${hotel.id})}">Add Establish</a><p>
+
 <h3>Facility</h3>
 <div th:each = "facility : ${facilities}">
     <div>

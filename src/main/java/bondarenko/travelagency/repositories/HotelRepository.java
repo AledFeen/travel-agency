@@ -1,5 +1,6 @@
 package bondarenko.travelagency.repositories;
 
+import bondarenko.travelagency.models.EstType;
 import bondarenko.travelagency.models.Facility;
 import bondarenko.travelagency.models.Hotel;
 import bondarenko.travelagency.models.dto.EstablishmentDto;
@@ -17,10 +18,10 @@ public interface HotelRepository {
     void updateFacility(Facility facility);
     void deleteFacility(Facility facility);
 
-    List<EstablishmentDto> getAllEstablishList();
+    List<EstType> getAllEstTypes();
     List<EstablishmentDto> getEstablishListByHotelId(int idHotel);
     void addEstablishmentToHotel(EstablishmentDto establishment);
-    EstablishmentDto getEstablishmentById(EstablishmentDto establishment);
+    EstablishmentDto getEstablishmentById(int id);
     void updateEstablishment(EstablishmentDto establishment);
     void deleteEstablishment(EstablishmentDto establishment);
 }

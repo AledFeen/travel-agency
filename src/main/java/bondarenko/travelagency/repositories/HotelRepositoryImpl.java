@@ -56,11 +56,9 @@ public class HotelRepositoryImpl implements HotelRepository {
     }
 
     @Override
-    public List<EstablishmentDto> getAllEstablishList() {
-        String sql = "select e.idEstablishment, e.estName, e.estDescription, e.idHotel, t.estTypeName " +
-                "from establishment e inner join establish_type t on e.idType = t.idEstablishType;";
-        SqlParameterSource parameterSource = new MapSqlParameterSource();
-        return jdbc.query(sql, parameterSource, new EstablishmentDtoMapper());
+    public List<EstType> getAllEstTypes() {
+        String sql = "Select * from establish_type";
+        return jdbc.query(sql, new EstTypeMapper());
     }
 
     @Override
@@ -92,25 +90,30 @@ public class HotelRepositoryImpl implements HotelRepository {
     }
 
     @Override
-    public EstablishmentDto getEstablishmentById(EstablishmentDto establishment) {
+    public EstablishmentDto getEstablishmentById(int id) {
         String sql = "select e.idEstablishment, e.estName, e.estDescription, e.idHotel, t.estTypeName" +
                 " from establishment e inner join establish_type t on e.idType = t.idEstablishType " +
-                "where e.idHotel = :idHotel Limit 1";
+                "where e.idEstablishment = :id Limit 1";
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
-        parameterSource.addValue("idEstablishment", establishment.getIdEstablishment());
+        parameterSource.addValue("id", id);
         return jdbc.queryForObject(sql, parameterSource, new EstablishmentDtoMapper());
     }
 
     @Override
     @Transactional
     public void updateEstablishment(EstablishmentDto establishment) {
-        String sql = "Update establishment set estName = :name, " +
-                "estDescription = :description where idEstablishment = :id";
+        String sql = "Select * from establish_type where estTypeName = :type";
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
+        parameterSource.addValue("type", establishment.getType());
+        EstType type = jdbc.queryForObject(sql, parameterSource, new EstTypeMapper());
+
+        sql = "UPDATE establishment set estName = :name, estDescription = :description, idType = :idType where idEstablishment = :id";
+        parameterSource = new MapSqlParameterSource();
         parameterSource.addValue("name", establishment.getName());
         parameterSource.addValue("description", establishment.getDescription());
         parameterSource.addValue("id", establishment.getIdEstablishment());
-        jdbc.update("sql", parameterSource);
+        parameterSource.addValue("idType", type.getIdEstType());
+        jdbc.update(sql, parameterSource);
     }
 
     @Override
@@ -170,4 +173,6 @@ public class HotelRepositoryImpl implements HotelRepository {
         parameterSource.addValue("id", facility.getIdFacility());
         jdbc.update(sql,parameterSource);
     }
+
+
 }
