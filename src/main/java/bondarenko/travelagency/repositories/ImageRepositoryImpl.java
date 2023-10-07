@@ -34,7 +34,7 @@ public class ImageRepositoryImpl implements ImageRepository {
     @Override
     @Transactional
     public void saveImage(Image im) throws SQLException {
-        String sql = "Insert into hotel_image(idHotelImage, content_type, isPrewievImage, name, original_file_name, size, bytes, idHotel) VALUES (:id, :content_type, :is_preview_image, :name, :original_file_name, :size, :bytes, :idHotel)";
+        String sql = "Insert into hotel_image(idHotelImage, content_type, isPreviewImage, name, original_file_name, size, bytes, idHotel) VALUES (:id, :content_type, :is_preview_image, :name, :original_file_name, :size, :bytes, :idHotel)";
 
             SerialBlob serialBlob = new SerialBlob(im.getBytes());
             MapSqlParameterSource parameters = new MapSqlParameterSource();

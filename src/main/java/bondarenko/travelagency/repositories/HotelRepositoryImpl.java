@@ -56,6 +56,20 @@ public class HotelRepositoryImpl implements HotelRepository {
     }
 
     @Override
+    @Transactional
+    public void updateHotel(Hotel hotel) {
+        String sql = "UPDATE hotel set hotelName = :name, `rank` = :rank, city = :city, location = :location" +
+                " where idHotel = :id";
+        MapSqlParameterSource parameterSource = new MapSqlParameterSource();
+        parameterSource.addValue("id", hotel.getId());
+        parameterSource.addValue("name", hotel.getHotelName());
+        parameterSource.addValue("rank", hotel.getRank());
+        parameterSource.addValue("city", hotel.getCity());
+        parameterSource.addValue("location", hotel.getLocation());
+        jdbc.update(sql, parameterSource);
+    }
+
+    @Override
     public List<EstType> getAllEstTypes() {
         String sql = "Select * from establish_type";
         return jdbc.query(sql, new EstTypeMapper());

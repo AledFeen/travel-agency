@@ -35,6 +35,12 @@ public class HotelController {
         return "hotel";
     }
 
+    @PostMapping("/hotel/update")
+    public String updateFacility(@ModelAttribute("hotel") Hotel hotel) {
+        hotelRepository.updateHotel(hotel);
+        return "redirect:/hotel/" + hotel.getId().toString();
+    }
+
     @GetMapping("/hotel/add")
     public String addHotel(){
         return "add-hotel";

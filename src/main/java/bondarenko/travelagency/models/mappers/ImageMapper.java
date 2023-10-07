@@ -13,7 +13,7 @@ public class ImageMapper implements RowMapper<Image> {
         Image image = new Image();
         image.setId(rs.getInt("idHotelImage"));
         image.setContentType(rs.getString("content_type"));
-        image.setPreviewImage(rs.getBoolean("isPrewievImage"));
+        image.setPreviewImage(rs.getBoolean("isPreviewImage"));
         image.setName(rs.getString("name"));
         image.setOriginalFileName(rs.getString("original_file_name"));
         image.setSize(rs.getLong("size"));

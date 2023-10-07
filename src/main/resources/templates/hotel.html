@@ -5,12 +5,28 @@
     <title>Title</title>
 </head>
 <body>
+<a th:href="@{/hotels}">Back</a>
 <div>
-    <p th:text = "${hotel.id}"></p>
-    <p th:text = "${hotel.hotelName}"></p>
-    <p th:text = "${hotel.rank}"></p>
-    <p th:text = "${hotel.city}"></p>
-    <p th:text = "${hotel.location}"></p>
+    <form th:action="@{/hotel/update}" method="post">
+        <input type="hidden" name="id" th:value="${hotel.id}"/>
+        <label>
+            <h6>Name</h6>
+            <input type="text" name="hotelName" th:value = "${hotel.hotelName}"/>
+        </label>
+        <label>
+            <h6>Rank</h6>
+            <input type="text" name="rank" th:value = "${hotel.rank}"/>
+        </label>
+        <label>
+            <h6>City</h6>
+            <input type="text" name="city" th:value = "${hotel.city}"/>
+        </label>
+        <label>
+            <h6>Location</h6>
+            <input type="text" name="location" th:value = "${hotel.location}"/>
+        </label>
+        <button type="submit" value="Update">Update</button>
+    </form>
 </div>
 
 <div th:each="img : ${images}">
