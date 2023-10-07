@@ -16,33 +16,37 @@ public class ImageServiceImpl implements ImageService {
     @Autowired
     private final ImageRepository imageRepository;
     @Override
-    public boolean save(MultipartFile file, int idHotel) throws IOException, SQLException {
+    public boolean save(MultipartFile file, int idParent, String table) throws IOException, SQLException {
         Image image = new Image();
         if(file.getSize() != 0 ){
             image.setPreviewImage(false);
-            image.setIdHotel(idHotel);
+            image.setIdParent(idParent);
             image.setName(file.getName());
             image.setOriginalFileName(file.getOriginalFilename());
             image.setContentType(file.getContentType());
             image.setSize(file.getSize());
             image.setBytes(file.getBytes());
-            imageRepository.saveImage(image);
+            imageRepository.saveImage(image, table);
             return true;
         } else return false;
     }
 
     @Override
-    public List<Image> getListImagesByHotelId(int id) {
-        return imageRepository.findAllImagesByIdHotel(id);
+    public List<Image> getListImagesByParentId(int id, String table) {
+        return imageRepository.findAllImagesByIdParent(id, table);
     }
 
     @Override
-    public void deleteImageById(int id) {
-        imageRepository.deleteImageById(id);
+    public void deleteImageById(int id, String table) {
+        imageRepository.deleteImageById(id, table);
     }
 
     @Override
-    public Image findImageById(int id) {
-        return imageRepository.findImageById(id);
+    public Image findHotelImageById(int id) {
+        return imageRepository.findHotelImageById(id);
+    }
+    @Override
+    public Image findRoomImageById(int id) {
+        return imageRepository.findRoomImageById(id);
     }
 }

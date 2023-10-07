@@ -15,5 +15,5 @@ public class Image {
     private String contentType;
     private boolean isPreviewImage;
     private byte[] bytes;
-    private int idHotel;
+    private int idParent;
 }

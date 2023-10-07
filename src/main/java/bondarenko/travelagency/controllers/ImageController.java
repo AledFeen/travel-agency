@@ -21,9 +21,18 @@ import java.sql.SQLException;
 public class ImageController {
     @Autowired
     private final ImageService imageService;
-    @GetMapping("/image/{id}")
-    private ResponseEntity<?> getImageById(@PathVariable int id) {
-        Image image = imageService.findImageById(id);
+    @GetMapping("/imageHotel/{id}")
+    private ResponseEntity<?> getHotelImageById(@PathVariable int id) {
+        Image image = imageService.findHotelImageById(id);
+        return ResponseEntity.ok()
+                .header("fileName", image.getOriginalFileName())
+                .contentType(MediaType.valueOf(image.getContentType()))
+                .contentLength(image.getSize())
+                .body(new InputStreamResource(new ByteArrayInputStream(image.getBytes())));
+    }
+    @GetMapping("/imageRoom/{id}")
+    private ResponseEntity<?> getRoomImageById(@PathVariable int id) {
+        Image image = imageService.findRoomImageById(id);
         return ResponseEntity.ok()
                 .header("fileName", image.getOriginalFileName())
                 .contentType(MediaType.valueOf(image.getContentType()))
@@ -32,15 +41,22 @@ public class ImageController {
     }
 
     @PostMapping("/image/add")
-    private String updateImage(@RequestParam ("idHotel") int idHotel, @RequestParam ("file") MultipartFile file) throws IOException, SQLException {
-        boolean isSaved = imageService.save(file, idHotel);
-        return "redirect:/hotel/" + idHotel;
+    private String addImage(@RequestParam ("idParent") int idParent, @RequestParam ("table") String table, @RequestParam ("file") MultipartFile file) throws IOException, SQLException {
+        boolean isSaved = imageService.save(file, idParent, table);
+        if (table.equals("room_image")) {
+            return "redirect:/room/" + idParent;
+        } else {
+            return "redirect:/hotel/" + idParent;
+        }
     }
 
     @PostMapping("/image/delete/{id}")
-    private String deleteImage(@PathVariable("id") int id, @RequestParam ("idHotel") int idHotel) {
-        imageService.deleteImageById(id);
-        return "redirect:/hotel/" + idHotel;
+    private String deleteImage(@PathVariable("id") int id, @RequestParam ("table") String table, @RequestParam ("idParent") int idParent) {
+        imageService.deleteImageById(id, table);
+        if (table.equals("room_image")) {
+            return "redirect:/room/" + idParent;
+        } else {
+            return "redirect:/hotel/" + idParent;
+        }
     }
-
 }

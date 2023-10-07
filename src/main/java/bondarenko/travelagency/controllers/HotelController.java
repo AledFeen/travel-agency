@@ -31,7 +31,7 @@ public class HotelController {
         model.addAttribute("hotel", hotelRepository.getHotelById(id));
         model.addAttribute("establishList", hotelRepository.getEstablishListByHotelId(id));
         model.addAttribute("facilities", hotelRepository.getFacilitiesByHotelId(id));
-        model.addAttribute("images", imageService.getListImagesByHotelId(id));
+        model.addAttribute("images", imageService.getListImagesByParentId(id, "hotel_image"));
         return "hotel";
     }
 

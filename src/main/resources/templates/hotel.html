@@ -30,9 +30,10 @@
 </div>
 
 <div th:each="img : ${images}">
-    <img th:src="@{/image/{imgId}(imgId=${img.id})}" height="60px"/><br/><br/>
+    <img th:src="@{/imageHotel/{imgId}(imgId=${img.id})}" height="60px"/><br/><br/>
     <form th:action="@{/image/delete/{id}(id=${img.id})}" method="post">
-        <input type="hidden" name="idHotel" th:value="${hotel.id}">
+        <input type="hidden" name="idParent" th:value="${hotel.id}">
+        <input type="hidden" name="table" th:value="hotel_image"/>
         <input type="submit" value="Delete"/>
     </form>
 </div>
@@ -40,7 +41,8 @@
 <h3>Image</h3>
 <form th:action="@{/image/add}" method="post" enctype="multipart/form-data">
     <input type="file" name="file"/><br/><br/>
-    <input type="hidden" name="idHotel" th:value="${hotel.id}">
+    <input type="hidden" name="idParent" th:value="${hotel.id}">
+    <input type="hidden" name="table" th:value="hotel_image"/>
     <input type="submit" value="Add"/>
 </form>
 

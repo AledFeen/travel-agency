@@ -6,8 +6,9 @@ import java.sql.SQLException;
 import java.util.List;
 
 public interface ImageRepository {
-    List<Image> findAllImagesByIdHotel(int idHotel);
-    Image findImageById(int idImage);
-    void saveImage(Image image) throws SQLException;
-    void deleteImageById(int id);
+    List<Image> findAllImagesByIdParent(int idHotel, String table);
+    Image findHotelImageById(int idImage);
+    Image findRoomImageById(int idImage);
+    void saveImage(Image image, String table) throws SQLException;
+    void deleteImageById(int id, String table);
 }

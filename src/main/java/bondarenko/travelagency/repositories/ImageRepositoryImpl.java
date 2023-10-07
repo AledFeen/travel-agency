@@ -15,26 +15,35 @@ import java.util.List;
 @AllArgsConstructor
 public class ImageRepositoryImpl implements ImageRepository {
     private final NamedParameterJdbcTemplate jdbc;
-    @Override
-    public List<Image> findAllImagesByIdHotel(int idHotel) {
-        String sql = "Select * from hotel_image where idHotel = :idHotel";
-        MapSqlParameterSource parameterSource = new MapSqlParameterSource();
-        parameterSource.addValue("idHotel", idHotel);
-        return jdbc.query(sql, parameterSource, new ImageMapper());
-    }
 
     @Override
-    public Image findImageById(int idImage) {
-        String sql = "Select * from hotel_image where idHotelImage = :id LIMIT 1";
+    public Image findHotelImageById(int idImage) {
+        String sql = "Select * from hotel_image where idImage = :id LIMIT 1";
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
         parameterSource.addValue("id", idImage);
         return jdbc.queryForObject(sql, parameterSource, new ImageMapper());
     }
 
     @Override
+    public Image findRoomImageById(int idImage) {
+        String sql = "Select * from room_image where idImage = :id LIMIT 1";
+        MapSqlParameterSource parameterSource = new MapSqlParameterSource();
+        parameterSource.addValue("id", idImage);
+        return jdbc.queryForObject(sql, parameterSource, new ImageMapper());
+    }
+
+    @Override
+    public List<Image> findAllImagesByIdParent(int idParent, String table) {
+        String sql = "Select * from "+ table +" where idParent = :idParent";
+        MapSqlParameterSource parameterSource = new MapSqlParameterSource();
+        parameterSource.addValue("idParent", idParent);
+        return jdbc.query(sql, parameterSource, new ImageMapper());
+    }
+
+    @Override
     @Transactional
-    public void saveImage(Image im) throws SQLException {
-        String sql = "Insert into hotel_image(idHotelImage, content_type, isPreviewImage, name, original_file_name, size, bytes, idHotel) VALUES (:id, :content_type, :is_preview_image, :name, :original_file_name, :size, :bytes, :idHotel)";
+    public void saveImage(Image im, String table) throws SQLException {
+        String sql = "Insert into "+ table +"(idImage, content_type, isPreviewImage, name, original_file_name, size, bytes, idParent) VALUES (:id, :content_type, :is_preview_image, :name, :original_file_name, :size, :bytes, :idParent)";
 
             SerialBlob serialBlob = new SerialBlob(im.getBytes());
             MapSqlParameterSource parameters = new MapSqlParameterSource();
@@ -45,14 +54,14 @@ public class ImageRepositoryImpl implements ImageRepository {
             parameters.addValue("name", im.getName());
             parameters.addValue("original_file_name", im.getOriginalFileName());
             parameters.addValue("size", im.getSize());
-            parameters.addValue("idHotel", im.getIdHotel());
+            parameters.addValue("idParent", im.getIdParent());
             jdbc.update(sql, parameters);
     }
 
     @Override
     @Transactional
-    public void deleteImageById(int id) {
-        String sql = "Delete from hotel_image where idHotelImage = :id";
+    public void deleteImageById(int id, String table) {
+        String sql = "Delete from "+table+" where idImage = :id";
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
         parameterSource.addValue("id", id);
         jdbc.update(sql, parameterSource);
