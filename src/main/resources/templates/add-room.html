@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add-room</title>
+</head>
+<body>
+<a th:href="@{/hotel/{idHotel}(idHotel=${idHotel})}">Back</a>
+<form th:action="@{/room/add}" method="post">
+    <label>
+        <h6>Bed</h6>
+        <input type="text" name="bed"/>
+    </label>
+    <label>
+        <h6>Class</h6>
+        <input type="text" name="clas"/>
+    </label>
+    <label>
+        <h6>Rooms count</h6>
+        <input type="text" name="roomsCount"/>
+    </label>
+    <label>
+        <h6>Cleaning</h6>
+        <input type="text" name="cleaning"/>
+    </label>
+    <label>
+        <h6>Daily price</h6>
+        <input type="number" name="dailyPrice"/>
+    </label>
+    <input type="hidden" name="idHotel" th:value="${idHotel}">
+    <input type="submit" value="Add"/>
+</form>
+</body>
+</html>

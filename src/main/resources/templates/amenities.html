@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add and select Amenity</title>
+</head>
+<body>
+<a th:href="@{/hotel/room/{id}(id=${idRoom})}">Back</a>
+
+<div th:each = "amenity : ${allAmenities}">
+    <div>
+        <p><b th:text="${amenity.idAmenity}"></b> <span th:text="${amenity.name}"></span></p>
+        <form th:action="@{/amenity/delete}" method="post">
+            <input type="hidden" name="idAmenity" th:value="${amenity.idAmenity}">
+            <input type="hidden" name="idRoom" th:value="${idRoom}">
+            <button type="submit" value="delete">X</button>
+        </form>
+    </div>
+</div>
+
+<form th:action="@{/amenity/add}" method="post">
+    name: <input type="text" name="name"/><br/><br/>
+    <input type="hidden" name="idRoom" th:value="${idRoom}">
+    <input type="submit" value="Add"/>
+</form>
+
+<h1>Room amenities</h1>
+
+<div th:each = "amenity : ${roomAmenities}">
+    <div>
+        <p><span th:text="${amenity.name}"></span></p>
+        <form th:action="@{/room/amenity/delete}" method="post">
+            <input type="hidden" name="idAmenity" th:value="${amenity.idAmenity}">
+            <input type="hidden" name="idRoom" th:value="${idRoom}">
+            <button type="submit" value="delete">X</button>
+        </form>
+    </div>
+</div>
+<form th:action="@{/room/amenity/add}" method="post">
+    <label>
+        <select name="idAmenity">
+            <option th:each="item : ${filteredAmenities}"  th:value="${item.idAmenity}"  th:text="${item.name}"></option>
+        </select>
+        <input type="hidden" name="idRoom" th:value="${idRoom}">
+    </label>
+    <button type="submit" value="delete">Add</button>
+</form>
+</body>
+</html>

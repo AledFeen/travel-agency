@@ -8,10 +8,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Hotel {
-    Integer id;
+    int id;
     String hotelName;
-    Integer rank;
+    int rank;
     String city;
     String location;
-    Integer idGroup;
+    int idGroup;
 }

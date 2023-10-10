@@ -44,7 +44,7 @@ public class ImageController {
     private String addImage(@RequestParam ("idParent") int idParent, @RequestParam ("table") String table, @RequestParam ("file") MultipartFile file) throws IOException, SQLException {
         boolean isSaved = imageService.save(file, idParent, table);
         if (table.equals("room_image")) {
-            return "redirect:/room/" + idParent;
+            return "redirect:/hotel/room/" + idParent;
         } else {
             return "redirect:/hotel/" + idParent;
         }
@@ -54,7 +54,7 @@ public class ImageController {
     private String deleteImage(@PathVariable("id") int id, @RequestParam ("table") String table, @RequestParam ("idParent") int idParent) {
         imageService.deleteImageById(id, table);
         if (table.equals("room_image")) {
-            return "redirect:/room/" + idParent;
+            return "redirect:/hotel/room/" + idParent;
         } else {
             return "redirect:/hotel/" + idParent;
         }

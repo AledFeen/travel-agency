@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Room</title>
+</head>
+<body>
+
+<a th:href="@{/hotel/room/{idHotel}(idHotel=${room.idHotel})}">Back</a>
+<div>
+    <form th:action="@{/room/update}" method="post">
+        <input type="hidden" name="idRoom" th:value="${room.idRoom}"/>
+        <input type="hidden" name="idHotel" th:value="${room.idHotel}"/>
+        <label>
+            <h6>Bed</h6>
+            <input type="text" name="bed" th:value = "${room.bed}"/>
+        </label>
+        <label>
+            <h6>Class</h6>
+            <input type="text" name="clas" th:value = "${room.clas}"/>
+        </label>
+        <label>
+            <h6>Rooms count</h6>
+            <input type="text" name="roomsCount" th:value = "${room.roomsCount}"/>
+        </label>
+        <label>
+            <h6>Cleaning</h6>
+            <input type="text" name="cleaning" th:value = "${room.cleaning}"/>
+        </label>
+        <label>
+            <h6>Daily price</h6>
+            <input type="number" name="dailyPrice" th:value = "${room.dailyPrice}"/>
+        </label>
+        <button type="submit" value="Update">Update</button>
+    </form>
+</div>
+
+<div th:each="img : ${images}">
+    <img th:src="@{/imageRoom/{imgId}(imgId=${img.id})}" height="60px"/><br/><br/>
+    <form th:action="@{/image/delete/{id}(id=${img.id})}" method="post">
+        <input type="hidden" name="idParent" th:value="${room.idRoom}">
+        <input type="hidden" name="table" th:value="room_image"/>
+        <input type="submit" value="Delete"/>
+    </form>
+</div>
+
+<h3>Image</h3>
+<form th:action="@{/image/add}" method="post" enctype="multipart/form-data">
+    <input type="file" name="file"/><br/><br/>
+    <input type="hidden" name="idParent" th:value="${room.idRoom}">
+    <input type="hidden" name="table" th:value="room_image"/>
+    <input type="submit" value="Add"/>
+</form>
+
+<div>
+    <form th:action="@{/room/delete}" method="post">
+        <input type="hidden" name="idRoom" th:value="${room.idRoom}"/>
+        <input type="hidden" name="idHotel" readonly th:value = "${room.idHotel}"/>
+        <button type="submit" value="Delete">Delete</button>
+    </form>
+</div>
+
+<a th:href="@{/room/amenities/{idRoom}(idRoom=${room.idRoom})}">Amenities</a>
+
+</body>
+</html>

@@ -61,5 +61,13 @@
     </div>
 </div>
 <a th:href="@{/hotel/facility/add/{hotelId}(hotelId=${hotel.id})}">Add Facility</a><p>
+
+<h3>Rooms</h3>
+<div th:each = "room : ${rooms}">
+    <div>
+        <p><b th:text="${room.idRoom}"></b> <span th:text="${room.getBed()}"></span> | <a th:href="@{/hotel/room/{roomId}(roomId=${room.idRoom})}">Link...</a></p>
+    </div>
+</div>
+<a th:href="@{/hotel/room/add/{hotelId}(hotelId=${hotel.id})}">Add Room</a><p>
 </body>
 </html>
