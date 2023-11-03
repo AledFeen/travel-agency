@@ -5,8 +5,8 @@
     <title>Add-room</title>
 </head>
 <body>
-<a th:href="@{/hotel/{idHotel}(idHotel=${idHotel})}">Back</a>
-<form th:action="@{/room/add}" method="post">
+<a th:href="@{/admin/hotel/{idHotel}(idHotel=${idHotel})}">Back</a>
+<form th:action="@{/admin/room/add}" method="post">
     <label>
         <h6>Bed</h6>
         <input type="text" name="bed"/>

@@ -45,14 +45,11 @@ public class SpringConfig {
                     authz
                             .requestMatchers("/images/**")
                             .permitAll()
-                            .requestMatchers(("/product/**"))
-                            .permitAll()
                             .requestMatchers(("/"))
                             .permitAll()
                             .requestMatchers(("/registration**"))
                             .permitAll()
-                            .requestMatchers("/personal").authenticated()
-                            .requestMatchers("/admin**").hasRole("ADMIN")
+                            .requestMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
                             .anyRequest().authenticated();
                 })
                 .formLogin(httpSecurityFormLoginConfigurer ->

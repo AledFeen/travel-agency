@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
+@RequestMapping("/admin")
 public class AmenityController {
     @Autowired
     AmenityRepository amenityRepository;
@@ -35,35 +36,35 @@ public class AmenityController {
     public String addAmenity(@RequestParam ("idRoom") int idRoom,
                              @ModelAttribute ("amenity") Amenity amenity) {
         amenityRepository.addAmenity(amenity);
-        return "redirect:/room/amenities/" + idRoom;
+        return "redirect:/admin/room/amenities/" + idRoom;
     }
 
     @PostMapping("amenity/delete")
     public String deleteAmenity(@RequestParam ("idRoom") int idRoom,
                                 @ModelAttribute ("amenity") Amenity amenity) {
         amenityRepository.deleteAmenity(amenity.getIdAmenity());
-        return "redirect:/room/amenities/" + idRoom;
+        return "redirect:/admin/room/amenities/" + idRoom;
     }
 
     @PostMapping("room/amenity/add")
     public String addAmenityForRoom(@RequestParam ("idRoom") int idRoom,
                              @ModelAttribute ("amenity") Amenity amenity) {
         amenityRepository.addAmenityForRoom(amenity.getIdAmenity(), idRoom);
-        return "redirect:/room/amenities/" + idRoom;
+        return "redirect:/admin/room/amenities/" + idRoom;
     }
 
     @PostMapping("room/amenity/delete-all")
     public String deleteAllAmenityForRoom(@RequestParam ("idRoom") int idRoom,
                                     @ModelAttribute ("amenity") Amenity amenity) {
         amenityRepository.deleteAllAmenitiesFromRoom(idRoom);
-        return "redirect:/room/amenities/" + idRoom;
+        return "redirect:/admin/room/amenities/" + idRoom;
     }
 
     @PostMapping("room/amenity/delete")
     public String deleteAmenityForRoom(@RequestParam ("idRoom") int idRoom,
                                           @ModelAttribute ("amenity") Amenity amenity) {
         amenityRepository.deleteAmenityFromRoom(amenity.getIdAmenity(), idRoom);
-        return "redirect:/room/amenities/" + idRoom;
+        return "redirect:/admin/room/amenities/" + idRoom;
     }
 
 

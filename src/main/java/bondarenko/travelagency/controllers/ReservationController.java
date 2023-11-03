@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
+@RequestMapping("/admin")
 public class ReservationController {
     @Autowired
     HotelRepository hotelRepository;
@@ -25,12 +26,12 @@ public class ReservationController {
     @PostMapping("/reservation/add")
     public String addReservation(@ModelAttribute("reservation") Reservation reservation, @RequestParam("idRoute") int idRoute) {
         reservationRepository.addReservation(reservation, idRoute);
-        return "redirect:/route/" + idRoute;
+        return "redirect:/admin/route/" + idRoute;
     }
 
     @PostMapping("/reservation/delete")
     public String deleteReservarion(@RequestParam("idReservation") int idReserv, @RequestParam("idRoute") int idRoute) {
         reservationRepository.deleteReservation(idReserv);
-        return "redirect:/route/" + idRoute;
+        return "redirect:/admin/route/" + idRoute;
     }
 }

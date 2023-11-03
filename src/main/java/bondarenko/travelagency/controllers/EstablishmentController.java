@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.Console;
 
 @Controller
+@RequestMapping("/admin")
 public class EstablishmentController {
     @Autowired
     HotelRepository hotelRepository;
@@ -29,19 +30,19 @@ public class EstablishmentController {
     public String addEstablishment(@ModelAttribute("establishment") EstablishmentDto establishment)
     {
         hotelRepository.addEstablishmentToHotel(establishment);
-        return "redirect:/hotel/" + establishment.getIdHotel();
+        return "redirect:/admin/hotel/" + establishment.getIdHotel();
     }
 
     @PostMapping("/establishment/update")
     public String updateEstablishment(@ModelAttribute("establishment") EstablishmentDto establishment, @RequestParam ("type") String type) {
         establishment.setType(type);
         hotelRepository.updateEstablishment(establishment);
-        return "redirect:/hotel/establishment/" + establishment.getIdEstablishment();
+        return "redirect:/admin/hotel/establishment/" + establishment.getIdEstablishment();
     }
 
     @PostMapping("/establishment/delete")
     public String deleteEstablishment(@ModelAttribute("establishment") EstablishmentDto establishment) {
         hotelRepository.deleteEstablishment(establishment);
-      return "redirect:/hotel/" + establishment.getIdHotel();
+      return "redirect:/admin/hotel/" + establishment.getIdHotel();
     }
 }

@@ -6,7 +6,7 @@
 </head>
 <body>
 <form th:action="@{/route/update}" method="post">
-    <input type="hidden" name="idRoute" th:value="${route.idRoute}"/>
+    <input type="hidden" name="idRoute" th:vazlue="${route.idRoute}"/>
     <label>
         <h6>Name</h6>
         <input type="text" name="rName" th:value = "${route.rName}"/>
@@ -40,6 +40,23 @@
         <input type="number" name="transportPrice" th:value = "${route.transportPrice}"/>
     </label>
     <button type="submit" value="Update">Update</button>
+</form>
+
+<div th:each="img : ${images}">
+    <img th:src="@{/imageRoute/{imgId}(imgId=${img.id})}" height="60px"/><br/><br/>
+    <form th:action="@{/image/delete/{id}(id=${img.id})}" method="post">
+        <input type="hidden" name="idParent" th:value="${route.idRoute}">
+        <input type="hidden" name="table" th:value="route_image"/>
+        <input type="submit" value="Delete"/>
+    </form>
+</div>
+
+<h3>Image</h3>
+<form th:action="@{/image/add}" method="post" enctype="multipart/form-data">
+    <input type="file" name="file"/><br/><br/>
+    <input type="hidden" name="idParent" th:value="${route.idRoute}">
+    <input type="hidden" name="table" th:value="route_image"/>
+    <input type="submit" value="Add"/>
 </form>
 
 <b>Reservations</b>

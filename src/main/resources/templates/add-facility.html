@@ -6,13 +6,10 @@
 </head>
 <body>
 
-<a th:href="@{/hotel/{idHotel}(idHotel=${idHotel})}">Back</a>
-<form th:action="@{/facility/add}" method="post">
-    Bed: <input type="text" name="bed"/><br/><br/>
-    Class: <input type="text" name="_class"/><br/><br/>
-    Class: <input type="text" name="roomsCount"/><br/><br/>
-    Class: <input type="text" name="cleaning"/><br/><br/>
-    Class: <input type="number" name="dailyPrice"/><br/><br/>
+<a th:href="@{/admin/hotel/{idHotel}(idHotel=${idHotel})}">Back</a>
+<form th:action="@{/admin/facility/add}" method="post">
+    facilityName: <input type="text" name="facilityName"/><br/><br/>
+    facilityDescription: <input type="text" name="facilityDescription"/><br/><br/>
     <input type="hidden" name="idHotel" th:value="${idHotel}">
     <input type="submit" value="Add"/>
 </form>

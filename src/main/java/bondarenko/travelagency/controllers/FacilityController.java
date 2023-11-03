@@ -7,7 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 @Controller
-//@RequestMapping("/admin")
+@RequestMapping("/admin")
 public class FacilityController {
     @Autowired
     HotelRepository hotelRepository;
@@ -27,18 +27,18 @@ public class FacilityController {
     @PostMapping("/facility/add")
     public String addFacility(@ModelAttribute("facility") Facility facility, @RequestParam("idHotel") int id) {
         hotelRepository.addFacilityToHotel(facility);
-        return "redirect:/hotel/facility/add/" + facility.getIdHotel().toString();
+        return "redirect:/admin/hotel/facility/add/" + facility.getIdHotel().toString();
     }
 
     @PostMapping("/facility/update")
     public String updateFacility(@ModelAttribute("facility") Facility facility) {
         hotelRepository.updateFacility(facility);
-        return "redirect:/hotel/facility/" + facility.getIdFacility().toString();
+        return "redirect:/admin/hotel/facility/" + facility.getIdFacility().toString();
     }
 
     @PostMapping("/facility/delete")
     public String deleteFacility(@ModelAttribute("facility") Facility facility) {
         hotelRepository.deleteFacility(facility);
-        return "redirect:/hotel/" + facility.getIdHotel().toString();
+        return "redirect:/admin/hotel/" + facility.getIdHotel().toString();
     }
 }

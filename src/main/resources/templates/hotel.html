@@ -7,7 +7,7 @@
 <body>
 <a th:href="@{/hotels}">Back</a>
 <div>
-    <form th:action="@{/hotel/update}" method="post">
+    <form th:action="@{/admin/hotel/update}" method="post">
         <input type="hidden" name="id" th:value="${hotel.id}"/>
         <label>
             <h6>Name</h6>
@@ -49,26 +49,26 @@
 <h3>Establish</h3>
 <div th:each = "establishItem : ${establishList}">
     <div>
-        <p><b th:text="${establishItem.idEstablishment}"></b> <span th:text="${establishItem.name}"></span> | <a th:href="@{/hotel/establishment/{establishId}(establishId=${establishItem.idEstablishment})}">Link...</a></p>
+        <p><b th:text="${establishItem.idEstablishment}"></b> <span th:text="${establishItem.name}"></span> | <a th:href="@{/admin/hotel/establishment/{establishId}(establishId=${establishItem.idEstablishment})}">Link...</a></p>
     </div>
 </div>
-<a th:href="@{/hotel/establishment/add/{hotelId}(hotelId=${hotel.id})}">Add Establish</a><p>
+<a th:href="@{/admin/hotel/establishment/add/{hotelId}(hotelId=${hotel.id})}">Add Establish</a><p>
 
 <h3>Facility</h3>
 <div th:each = "facility : ${facilities}">
     <div>
-        <p><b th:text="${facility.idHotel}"></b> <span th:text="${facility.facilityName}"></span> | <a th:href="@{/hotel/facility/{facilityId}(facilityId=${facility.idFacility})}">Link...</a></p>
+        <p><b th:text="${facility.idHotel}"></b> <span th:text="${facility.facilityName}"></span> | <a th:href="@{/admin/hotel/facility/{facilityId}(facilityId=${facility.idFacility})}">Link...</a></p>
     </div>
 </div>
-<a th:href="@{/hotel/facility/add/{hotelId}(hotelId=${hotel.id})}">Add Facility</a><p>
+<a th:href="@{/admin/hotel/facility/add/{hotelId}(hotelId=${hotel.id})}">Add Facility</a><p>
 
 <h3>Rooms</h3>
 <div th:each = "room : ${rooms}">
     <div>
-        <p><b th:text="${room.idRoom}"></b> <span th:text="${room.getBed()}"></span> | <a th:href="@{/hotel/room/{roomId}(roomId=${room.idRoom})}">Link...</a></p>
+        <p><b th:text="${room.idRoom}"></b> <span th:text="${room.getBed()}"></span> | <a th:href="@{/admin/hotel/room/{roomId}(roomId=${room.idRoom})}">Link...</a></p>
     </div>
 </div>
-<a th:href="@{/hotel/room/add/{hotelId}(hotelId=${hotel.id})}">Add Room</a><p>
+<a th:href="@{/admin/hotel/room/add/{hotelId}(hotelId=${hotel.id})}">Add Room</a><p>
 
 <b>Hotel foodtypes</b>
 <div th:each = "htf : ${hotelfoodtypes}">
@@ -87,7 +87,7 @@
     </div>
 </div>
 
-<form method="post" th:action="@{/hotel/foodtype/add}">
+<form method="post" th:action="@{/admin/hotel/foodtype/add}">
     <input type="hidden" name="idHotel" th:value="${hotel.id}"/>
     <input type="number" name="price"/>
     <label>

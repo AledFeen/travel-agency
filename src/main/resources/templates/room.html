@@ -6,9 +6,9 @@
 </head>
 <body>
 
-<a th:href="@{/hotel/room/{idHotel}(idHotel=${room.idHotel})}">Back</a>
+<a th:href="@{/admin/hotel/{idHotel}(idHotel=${room.idHotel})}">Back</a>
 <div>
-    <form th:action="@{/room/update}" method="post">
+    <form th:action="@{/admin/room/update}" method="post">
         <input type="hidden" name="idRoom" th:value="${room.idRoom}"/>
         <input type="hidden" name="idHotel" th:value="${room.idHotel}"/>
         <label>
@@ -53,14 +53,14 @@
 </form>
 
 <div>
-    <form th:action="@{/room/delete}" method="post">
+    <form th:action="@{/admin/room/delete}" method="post">
         <input type="hidden" name="idRoom" th:value="${room.idRoom}"/>
         <input type="hidden" name="idHotel" readonly th:value = "${room.idHotel}"/>
         <button type="submit" value="Delete">Delete</button>
     </form>
 </div>
 
-<a th:href="@{/room/amenities/{idRoom}(idRoom=${room.idRoom})}">Amenities</a>
+<a th:href="@{/admin/room/amenities/{idRoom}(idRoom=${room.idRoom})}">Amenities</a>
 
 </body>
 </html>

@@ -5,8 +5,8 @@
     <title>Title</title>
 </head>
 <body>
-<a th:href="@{/hotel/{idHotel}(idHotel=${idHotel})}">Back</a>
-<form th:action="@{/establishment/add}" method="post">
+<a th:href="@{/admin/hotel/{idHotel}(idHotel=${idHotel})}">Back</a>
+<form th:action="@{/admin/establishment/add}" method="post">
     name: <input type="text" name="name"/><br/><br/>
     description: <input type="text" name="description"/><br/><br/>
     type: <input type="text" name="type"/><br/><br/>

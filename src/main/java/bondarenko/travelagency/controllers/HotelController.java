@@ -17,7 +17,7 @@ import java.util.List;
 
 
 @Controller
-//@RequestMapping("/admin")
+@RequestMapping("/admin")
 public class HotelController {
     @Autowired
     HotelRepository hotelRepository;
@@ -55,7 +55,7 @@ public class HotelController {
     @PostMapping("/hotel/update")
     public String updateFacility(@ModelAttribute("hotel") Hotel hotel) {
         hotelRepository.updateHotel(hotel);
-        return "redirect:/hotel/" + hotel.getId();
+        return "redirect:/admin/hotel/" + hotel.getId();
     }
 
     @GetMapping("/hotel/add")
@@ -66,18 +66,18 @@ public class HotelController {
     @PostMapping("/hotel/add")
     public String addHotel(@ModelAttribute("hotel") Hotel hotel) {
         Hotel returnedHotel = hotelRepository.addHotel(hotel);
-        return "redirect:/hotel/" + returnedHotel.getId();
+        return "redirect:/admin/hotel/" + returnedHotel.getId();
     }
 
     @PostMapping("/hotel/foodtype/add")
     public String addFoodType(@ModelAttribute("foodtype") HotelFoodType hotelFoodType) {
         foodTypeRepository.addHotelFoodType(hotelFoodType);
-        return "redirect:/hotel/" + hotelFoodType.getIdHotel();
+        return "redirect:/admin/hotel/" + hotelFoodType.getIdHotel();
     }
 
     @PostMapping("hotel/foodtype/delete")
     public String deleteFoodType(@RequestParam("idHotel") int idHotel, @RequestParam("idHotelFoodType") int id ) {
         foodTypeRepository.deleteHotelFoodType(id);
-        return "redirect:/hotel/" + idHotel;
+        return "redirect:/admin/hotel/" + idHotel;
     }
 }

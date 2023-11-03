@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
+@RequestMapping("/admin")
 public class RoomController {
     @Autowired
     RoomRepository roomRepository;
@@ -32,19 +33,19 @@ public class RoomController {
     @PostMapping("/room/add")
     public String addFacility(@ModelAttribute("room") Room room) {
         roomRepository.addRoom(room);
-        return "redirect:/hotel/" + room.getIdHotel();
+        return "redirect:/admin/hotel/" + room.getIdHotel();
     }
 
     @PostMapping("/room/update")
     public String updateFacility(@ModelAttribute("room") Room room) {
         roomRepository.updateRoom(room);
-        return "redirect:/hotel/room/" + room.getIdRoom();
+        return "redirect:/admin/hotel/room/" + room.getIdRoom();
     }
 
     @PostMapping("/room/delete")
     public String deleteFacility(@ModelAttribute("room") Room room) {
         roomRepository.deleteRoom(room.getIdRoom());
-        return "redirect:/hotel/" + room.getIdHotel();
+        return "redirect:/admin/hotel/" + room.getIdHotel();
     }
 
 }

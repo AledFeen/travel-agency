@@ -7,9 +7,9 @@
 <body>
 <div th:each = "route : ${routes}">
     <div>
-        <p><b th:text="${route.rName}"></b> <span th:text="${route.getIdRoute()}"></span> | <a th:href="@{/route/{routeId}(routeId=${route.idRoute})}">Link...</a></p>
+        <p><b th:text="${route.rName}"></b> <span th:text="${route.getIdRoute()}"></span> | <a th:href="@{/admin/route/{routeId}(routeId=${route.idRoute})}">Link...</a></p>
     </div>
 </div>
-<p><a th:href="@{/route/add}">Add new route</a></p>
+<p><a th:href="@{/admin/route/add}">Add new route</a></p>
 </body>
 </html>

@@ -5,9 +5,9 @@
     <title>Title</title>
 </head>
 <body>
-<a th:href="@{/hotel/{idHotel}(idHotel=${establishment.idHotel})}">Back</a>
+<a th:href="@{/admin/hotel/{idHotel}(idHotel=${establishment.idHotel})}">Back</a>
 <div>
-    <form th:action="@{/establishment/update}" method="post">
+    <form th:action="@{/admin/establishment/update}" method="post">
         <input type="hidden" name="idEstablishment" th:value="${establishment.idEstablishment}"/>
         <label>
             <h6>Name</h6>
@@ -27,7 +27,7 @@
         <button type="submit" value="Update">Update</button>
     </form>
     <div>
-        <form th:action="@{/establishment/delete}" method="post">
+        <form th:action="@{/admin/establishment/delete}" method="post">
             <input type="hidden" name="idEstablishment" th:value="${establishment.idEstablishment}"/>
             <input type="hidden" name="idHotel" readonly th:value = "${establishment.idHotel}"/>
             <button type="submit" value="Update">Delete</button>
