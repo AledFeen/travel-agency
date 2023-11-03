@@ -1,6 +1,7 @@
 package bondarenko.travelagency.services;
 
 import bondarenko.travelagency.models.Image;
+import bondarenko.travelagency.models.dto.ImageForFindDto;
 import bondarenko.travelagency.repositories.ImageRepository;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,12 @@ public class ImageServiceImpl implements ImageService {
     public boolean save(MultipartFile file, int idParent, String table) throws IOException, SQLException {
         Image image = new Image();
         if(file.getSize() != 0 ){
-            image.setPreviewImage(false);
+            List<ImageForFindDto> findImages = imageRepository.getImagesForFind(table);
+
+            if(findImages.stream().anyMatch(item -> item.getIdParent() == idParent)){
+                image.setPreviewImage(false);
+            } else image.setPreviewImage(true);
+
             image.setIdParent(idParent);
             image.setName(file.getName());
             image.setOriginalFileName(file.getOriginalFilename());
@@ -48,5 +54,9 @@ public class ImageServiceImpl implements ImageService {
     @Override
     public Image findRoomImageById(int id) {
         return imageRepository.findRoomImageById(id);
+    }
+    @Override
+    public Image findRouteImageById(int id) {
+        return imageRepository.findRouteImageById(id);
     }
 }

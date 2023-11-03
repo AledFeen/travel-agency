@@ -69,5 +69,33 @@
     </div>
 </div>
 <a th:href="@{/hotel/room/add/{hotelId}(hotelId=${hotel.id})}">Add Room</a><p>
+
+<b>Hotel foodtypes</b>
+<div th:each = "htf : ${hotelfoodtypes}">
+    <div>
+        <p th:text="${htf.id}"></p>
+        <p th:text="${htf.name}"></p>
+        <p th:text="${htf.price}"></p>
+    </div>
+</div>
+
+<b>All FoodTypes</b>
+<div th:each = "ft : ${foodtypes}">
+    <div>
+        <p th:text="${ft.id}"></p>
+        <p th:text="${ft.name}"></p>
+    </div>
+</div>
+
+<form method="post" th:action="@{/hotel/foodtype/add}">
+    <input type="hidden" name="idHotel" th:value="${hotel.id}"/>
+    <input type="number" name="price"/>
+    <label>
+        <select name="idFoodType">
+            <option th:each="item : ${foodtypes}"  th:value="${item.id}"  th:text="${item.name}"></option>
+        </select>
+    </label>
+    <button type="submit" value="Update">Add</button>
+</form>
 </body>
 </html>

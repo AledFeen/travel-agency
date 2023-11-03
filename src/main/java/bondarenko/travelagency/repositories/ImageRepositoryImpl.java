@@ -1,6 +1,8 @@
 package bondarenko.travelagency.repositories;
 
 import bondarenko.travelagency.models.Image;
+import bondarenko.travelagency.models.dto.ImageForFindDto;
+import bondarenko.travelagency.models.mappers.ImageForFindMapper;
 import bondarenko.travelagency.models.mappers.ImageMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -27,6 +29,14 @@ public class ImageRepositoryImpl implements ImageRepository {
     @Override
     public Image findRoomImageById(int idImage) {
         String sql = "Select * from room_image where idImage = :id LIMIT 1";
+        MapSqlParameterSource parameterSource = new MapSqlParameterSource();
+        parameterSource.addValue("id", idImage);
+        return jdbc.queryForObject(sql, parameterSource, new ImageMapper());
+    }
+
+    @Override
+    public Image findRouteImageById(int idImage) {
+        String sql = "Select * from route_image where idImage = :id LIMIT 1";
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
         parameterSource.addValue("id", idImage);
         return jdbc.queryForObject(sql, parameterSource, new ImageMapper());
@@ -65,5 +75,18 @@ public class ImageRepositoryImpl implements ImageRepository {
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
         parameterSource.addValue("id", id);
         jdbc.update(sql, parameterSource);
+    }
+
+    @Override
+    public List<ImageForFindDto> getImagesForFind(String table_name) {
+        String sql;
+        if (table_name.equals("room_image")) {
+            sql = "Select idImage, idParent from room_image";
+        } else if(table_name.equals("hotel_image")) {
+            sql = "Select idImage, idParent from hotel_image";
+        } else {
+            sql = "Select idImage, idParent from route_image";
+        }
+        return jdbc.query(sql, new MapSqlParameterSource(),new ImageForFindMapper());
     }
 }

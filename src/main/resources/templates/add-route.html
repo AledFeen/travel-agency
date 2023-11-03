@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>add-route</title>
+</head>
+<body>
+<form th:action="@{/route/add}" method="post">
+    Route name: <input type="text" name="rName"/><br/><br/>
+    Route description: <input type="text" name="description"/><br/><br/>
+    Route people count: <input type="number" name="peopleCount"/><br/><br/>
+    Route start date: <input type="date" name="startData"/><br/><br/>
+    Route end date: <input type="date" name="endData"/><br/><br/>
+    <input type="submit" value="Add"/>
+</form>
+</body>
+</html>

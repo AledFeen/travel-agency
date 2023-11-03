@@ -39,14 +39,25 @@ public class ImageController {
                 .contentLength(image.getSize())
                 .body(new InputStreamResource(new ByteArrayInputStream(image.getBytes())));
     }
+    @GetMapping("/imageRoute/{id}")
+    private ResponseEntity<?> getRouteImageById(@PathVariable int id) {
+        Image image = imageService.findRouteImageById(id);
+        return ResponseEntity.ok()
+                .header("fileName", image.getOriginalFileName())
+                .contentType(MediaType.valueOf(image.getContentType()))
+                .contentLength(image.getSize())
+                .body(new InputStreamResource(new ByteArrayInputStream(image.getBytes())));
+    }
 
     @PostMapping("/image/add")
     private String addImage(@RequestParam ("idParent") int idParent, @RequestParam ("table") String table, @RequestParam ("file") MultipartFile file) throws IOException, SQLException {
         boolean isSaved = imageService.save(file, idParent, table);
         if (table.equals("room_image")) {
             return "redirect:/hotel/room/" + idParent;
-        } else {
+        } else if(table.equals("hotel_image")) {
             return "redirect:/hotel/" + idParent;
+        } else {
+            return "redirect:/route/" + idParent;
         }
     }
 
@@ -55,8 +66,10 @@ public class ImageController {
         imageService.deleteImageById(id, table);
         if (table.equals("room_image")) {
             return "redirect:/hotel/room/" + idParent;
-        } else {
+        } else if(table.equals("hotel_image")) {
             return "redirect:/hotel/" + idParent;
+        } else {
+            return "redirect:/route/" + idParent;
         }
     }
 }

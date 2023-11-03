@@ -12,6 +12,7 @@ public interface HotelRepository {
     List<Hotel> getHotelList();
     Hotel getHotelById(int id);
     void updateHotel(Hotel hotel);
+    //!!!!deleteHotel
 
     List<Facility> getFacilitiesByHotelId(int idHotel);
     void addFacilityToHotel(Facility facility);

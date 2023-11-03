@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:each = "route : ${routes}">
+    <div>
+        <p><b th:text="${route.rName}"></b> <span th:text="${route.getIdRoute()}"></span> | <a th:href="@{/route/{routeId}(routeId=${route.idRoute})}">Link...</a></p>
+    </div>
+</div>
+<p><a th:href="@{/route/add}">Add new route</a></p>
+</body>
+</html>

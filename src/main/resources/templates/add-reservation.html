@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form method="post" th:action="@{/reservation/add}">
+  <input type="hidden" name="idRoute" th:value="${idRoute}"/>
+  <input type="date" name="startDate"/>
+  <input type="date" name="endDate"/>
+  <label>
+    <select name="idHotel">
+      <option th:each="item : ${hotels}"  th:value="${item.id}"  th:text="${item.hotelName}"></option>
+    </select>
+  </label>
+  <button type="submit" value="Update">Add</button>
+</form>
+</body>
+</html>

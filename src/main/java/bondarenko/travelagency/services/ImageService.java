@@ -13,4 +13,5 @@ public interface ImageService {
     void deleteImageById(int id, String table);
     Image findHotelImageById(int id);
     Image findRoomImageById(int id);
+    Image findRouteImageById(int id);
 }
