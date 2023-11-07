@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+    <span th:text="${route.idRoute}"></span>
+    <span th:text = "${route.rName}"></span>
+    <span th:text = "${route.description}"></span>
+    <span th:text = "${route.peopleCount}"></span>
+    <span th:text = "${route.startData}"></span>
+    <span th:text = "${route.endData}"></span>
+    <span th:text = "${route.minPrice}"></span>
+    <span th:text = "${route.maxPrice}"></span>
+    <span th:text = "${route.transportPrice}"></span>
+
+    <div th:each="img : ${images}">
+        <img th:src="@{/imageRoute/{imgId}(imgId=${img.id})}" height="60px"/><br/><br/>
+    </div>
+
+    <form th:action="@{/changeForm}" th:object="${changedList}" method="post">
+        <div th:each = "d, dtoIndex : ${dto}">
+            <div>
+                <span th:text="${d.reservation.id}"></span>
+                <span th:text="${d.reservation.idHotel}"></span>
+                <span th:text="${d.reservation.minPrice}"></span>
+                <span th:text="${d.reservation.maxPrice}"></span>
+                <span th:text="${d.hotel.hotelName}"></span>
+                <div th:each="fac : ${d.facilityList}">
+                    <div th:text="${fac.facilityName}"></div>
+                    <div th:text="${fac.facilityDescription}"></div>
+                </div>
+                <div th:each="est : ${d.establishmentList}">
+                    <div th:text="${est.name}"></div>
+                    <div th:text="${est.description}"></div>
+                    <div th:text="${est.type}"></div>
+                </div>
+                <div th:each="himg : ${d.hotelImages}">
+                    <img th:src="@{/imageHotel/{imgId}(imgId=${himg.id})}" height="60px"/><br/><br/>
+                </div>
+                <span th:text="${d.firm.firmName}"></span>
+                <span th:text="${d.country.countryName}"></span>
+
+                <p>Rooms</p>
+                <div th:each="room : ${d.rooms}">
+                    <div>idRoom</div>
+                    <div th:text="${room.room.idRoom}"></div>
+
+                    <div th:each="am : ${room.amenities}">
+                        <div th:text="am.name"></div>
+                    </div>
+
+                    <div th:each="rimg : ${room.roomImages}">
+                        <img th:src="@{/imageRoom/{imgId}(imgId=${rimg.id})}" height="60px"/><br/><br/>
+                    </div>
+                </div>
+
+                <div th:each="ft : ${d.foodTypes}">
+                    <div th:text="${ft.name}"></div>
+                    <div th:text="${ft.price}"></div>
+                </div>
+
+                <label>
+                    <select th:field="*{changeDtoList[__${dtoIndex.index}__].idRoom}">
+                        <option th:each="item : ${d.rooms}"  th:value="${item.room.idRoom}"  th:text="${item.room.idRoom}"></option>
+                    </select>
+                </label>
+
+                <label>
+                    <select th:field="*{changeDtoList[__${dtoIndex.index}__].idFoodType}">
+                        <option th:each="item : ${d.foodTypes}"  th:value="${item.idFoodType}"  th:text="${item.name}"></option>
+                    </select>
+                </label>
+
+                <input th:id="${'changeDtoList'+__${dtoIndex.index}__+'.idReservation'}" th:name="${'changeDtoList['+__${dtoIndex.index}__+'].idReservation'}" th:value="${d.reservation.id}" type="hidden"/>
+                <input name="idRoute" type="hidden" th:value="${route.idRoute}">
+                <p></p>
+            </div>
+        </div>
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>

@@ -43,9 +43,7 @@ public class SpringConfig {
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(authz -> {
                     authz
-                            .requestMatchers("/images/**")
-                            .permitAll()
-                            .requestMatchers(("/"))
+                            .requestMatchers("/","/route/**","/imageRoute/**", "/imageHotel/**", "/imageRoom/**")
                             .permitAll()
                             .requestMatchers(("/registration**"))
                             .permitAll()
@@ -64,7 +62,6 @@ public class SpringConfig {
 
         http.csrf(AbstractHttpConfigurer::disable);
         http.headers(AbstractHttpConfigurer::disable);
-
         return http.build();
     }
 

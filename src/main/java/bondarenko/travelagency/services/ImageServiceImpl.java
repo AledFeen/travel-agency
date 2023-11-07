@@ -43,6 +43,16 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
+    public List<ImageForFindDto> getImageForFindList(String table) {
+        return imageRepository.getImagesForFind(table);
+    }
+
+    @Override
+    public List<Image> getListImages(String table) {
+        return imageRepository.findAllImages(table);
+    }
+
+    @Override
     public void deleteImageById(int id, String table) {
         imageRepository.deleteImageById(id, table);
     }

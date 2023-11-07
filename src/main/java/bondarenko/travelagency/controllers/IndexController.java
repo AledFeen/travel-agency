@@ -1,18 +1,58 @@
 package bondarenko.travelagency.controllers;
 
+import bondarenko.travelagency.models.dto.ChangeDto;
+import bondarenko.travelagency.models.dto.ChangedList;
+import bondarenko.travelagency.models.dto.ReservationDto;
+import bondarenko.travelagency.repositories.CustomerRepository;
+import bondarenko.travelagency.repositories.HotelRepository;
+import bondarenko.travelagency.repositories.ReservationRepository;
+import bondarenko.travelagency.repositories.RouteRepository;
+import bondarenko.travelagency.services.CustomerService;
+import bondarenko.travelagency.services.ImageService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
 public class IndexController {
 
+    @Autowired
+    RouteRepository routeRepository;
+    @Autowired
+    ImageService imageService;
+    @Autowired
+    ReservationRepository reservationRepository;
+    @Autowired
+    CustomerService customerService;
+    @Autowired
+    CustomerRepository customerRepository;
+
+
     @GetMapping("/")
-    public String index() { return "main-page"; }
+    public String index(Model model) {
+        model.addAttribute("routes", routeRepository.getRouteList());
+        model.addAttribute("images", imageService.getImageForFindList("route_image"));
+        return "main-page";
+    }
+
+    @GetMapping("/route/{routeId}")
+    public String getRoute(@PathVariable("routeId") int id, Model model) {
+        model.addAttribute("route", routeRepository.getRouteById(id));
+        model.addAttribute("images", imageService.getListImagesByParentId(id, "route_image"));
+        List<ReservationDto> reservations = customerService.getReservationDtoList(reservationRepository.getReservationListByRouteId(id));
+        model.addAttribute("dto", reservations);
+        ChangedList changedList = new ChangedList();
+        for(var item : reservations) {
+            changedList.addChangeItem(new ChangeDto());
+        }
+        model.addAttribute("changedList", changedList);
+        return "customer-route";
+    }
 
     @GetMapping("/{country}{city}")
     public String filtered_index(@PathVariable(name = "country", required = false) List<String> countryValues,
@@ -37,6 +77,24 @@ public class IndexController {
     @GetMapping("/index") //future profile
     public String home(Model model, Principal principal){
         return "index";
+    }
+
+    @PostMapping("/changeForm")
+    public String submitForm(@ModelAttribute("changedList") ChangedList changedList, @RequestParam("idRoute") int idRoute, Model model) {
+        System.out.println("Проверка списка");
+        for (ChangeDto item : changedList.getChangeDtoList()) {
+            System.out.println(item.getIdRoom() + " ft " + item.getIdFoodType() + " reservation " + item.getIdReservation());
+        }
+        model.addAttribute(changedList);
+        model.addAttribute("idRoute", idRoute);
+        model.addAttribute("startPlaces", customerRepository.getStartPlaces());
+        return "make-deal";
+    }
+
+    @PostMapping("/makeDeal")
+    public String makeDeal(@ModelAttribute("changedList") ChangedList changedList, @RequestParam("idRoute") int id, @RequestParam("startPlace") int startPlace, @RequestParam("phoneNumber") String phone, Principal principal) {
+        customerService.saveDeal(changedList, id, startPlace, principal.getName(), phone);
+        return "redirect:/";
     }
 }
 

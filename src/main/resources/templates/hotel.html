@@ -77,6 +77,11 @@
         <p th:text="${htf.name}"></p>
         <p th:text="${htf.price}"></p>
     </div>
+    <form th:action="@{/admin/hotel/foodtype/delete}" method="post">
+        <input type="hidden" name="idHotelFoodType" th:value="${htf.id}">
+        <input type="hidden" name="idHotel" th:value="${htf.idHotel}">
+        <button type="submit" value="delete">X</button>
+    </form>
 </div>
 
 <b>All FoodTypes</b>

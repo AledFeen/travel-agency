@@ -51,6 +51,13 @@ public class ImageRepositoryImpl implements ImageRepository {
     }
 
     @Override
+    public List<Image> findAllImages(String table) {
+        String sql = "Select * from "+ table;
+        MapSqlParameterSource parameterSource = new MapSqlParameterSource();
+        return jdbc.query(sql, parameterSource, new ImageMapper());
+    }
+
+    @Override
     @Transactional
     public void saveImage(Image im, String table) throws SQLException {
         String sql = "Insert into "+ table +"(idImage, content_type, isPreviewImage, name, original_file_name, size, bytes, idParent) VALUES (:id, :content_type, :is_preview_image, :name, :original_file_name, :size, :bytes, :idParent)";

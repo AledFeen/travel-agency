@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form th:action="@{/makeDeal}" th:object="${changedList}" method="post">
+    <div th:each="changeDto, dtoIndex : ${changedList.changeDtoList}">
+        <input type="hidden" th:field="*{changeDtoList[__${dtoIndex.index}__].idRoom}" />
+        <input type="hidden" th:field="*{changeDtoList[__${dtoIndex.index}__].idFoodType}" />
+        <input type="hidden" th:field="*{changeDtoList[__${dtoIndex.index}__].idReservation}" />
+    </div>
+    <label>
+        <select name="startPlace">
+            <option th:each="item : ${startPlaces}"  th:value="${item.idStartPlace}"  th:text="${item.city + ' ' + item.type}"></option>
+        </select>
+    </label>
+    <input type="hidden" name="idRoute" th:value="${idRoute}">
+    <input type="text" name="phoneNumber"/>
+    <input type="submit" value="Add"/>
+</form>
+</body>
+</html>

@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface ImageRepository {
     List<Image> findAllImagesByIdParent(int idHotel, String table);
+    List<Image> findAllImages(String table);
     Image findHotelImageById(int idImage);
     Image findRoomImageById(int idImage);
     Image findRouteImageById(int idImage);

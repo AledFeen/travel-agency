@@ -5,8 +5,8 @@
     <title>route</title>
 </head>
 <body>
-<form th:action="@{/route/update}" method="post">
-    <input type="hidden" name="idRoute" th:vazlue="${route.idRoute}"/>
+<form th:action="@{/admin/route/update}" method="post">
+    <input type="hidden" name="idRoute" th:value="${route.idRoute}"/>
     <label>
         <h6>Name</h6>
         <input type="text" name="rName" th:value = "${route.rName}"/>
@@ -74,6 +74,6 @@
     </form>
 </div>
 
-<p><a th:href="@{/reservation/add/{idRoute}(idRoute=${route.idRoute})}">AddReservation</a></p>
+<p><a th:href="@{/admin/reservation/add/{idRoute}(idRoute=${route.idRoute})}">AddReservation</a></p>
 </body>
 </html>
