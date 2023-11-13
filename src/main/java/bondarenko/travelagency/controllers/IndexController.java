@@ -35,7 +35,8 @@ public class IndexController {
 
     @GetMapping("/")
     public String index(Model model) {
-        model.addAttribute("routes", routeRepository.getRouteList());
+        //model.addAttribute("routes", routeRepository.getRouteList());
+        model.addAttribute("routes", customerService.getRoutes());
         model.addAttribute("images", imageService.getImageForFindList("route_image"));
         return "main-page";
     }
@@ -54,22 +55,11 @@ public class IndexController {
         return "customer-route";
     }
 
-    @GetMapping("/{country}{city}")
-    public String filtered_index(@PathVariable(name = "country", required = false) List<String> countryValues,
-                           @PathVariable(name = "city", required = false) List<String> cityValues,
+    @GetMapping("/{listAttribute}")
+    public String filtered_index(@PathVariable(name = "listAttribute", required = false) List<String> listAttribute,
                            Model model) {
-        if (countryValues != null) {
-            for (String value : countryValues)
-            {
-                System.out.println(value);
-            }
-        }
-        if (cityValues != null) {
-            for (String value : cityValues)
-            {
-                System.out.println(value);
-            }
-        }
+        model.addAttribute("routes", customerService.getRoutes(listAttribute));
+        model.addAttribute("images", imageService.getImageForFindList("route_image"));
         return "main-page";
     }
     @GetMapping("/login")
@@ -80,7 +70,8 @@ public class IndexController {
     }
 
     @PostMapping("/changeForm")
-    public String submitForm(@ModelAttribute("changedList") ChangedList changedList, @RequestParam("idRoute") int idRoute, Model model) {
+    public String submitForm(@ModelAttribute("changedList") ChangedList changedList,
+                             @RequestParam("idRoute") int idRoute, Model model) {
         System.out.println("Проверка списка");
         for (ChangeDto item : changedList.getChangeDtoList()) {
             System.out.println(item.getIdRoom() + " ft " + item.getIdFoodType() + " reservation " + item.getIdReservation());
@@ -92,7 +83,11 @@ public class IndexController {
     }
 
     @PostMapping("/makeDeal")
-    public String makeDeal(@ModelAttribute("changedList") ChangedList changedList, @RequestParam("idRoute") int id, @RequestParam("startPlace") int startPlace, @RequestParam("phoneNumber") String phone, Principal principal) {
+    public String makeDeal(@ModelAttribute("changedList") ChangedList changedList,
+                           @RequestParam("idRoute") int id,
+                           @RequestParam("startPlace") int startPlace,
+                           @RequestParam("phoneNumber") String phone,
+                           Principal principal) {
         customerService.saveDeal(changedList, id, startPlace, principal.getName(), phone);
         return "redirect:/";
     }

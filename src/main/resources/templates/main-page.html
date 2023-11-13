@@ -9,20 +9,25 @@
 
 <div th:each = "route : ${routes}">
     <div th:each="img : ${images}">
-        <div th:if="${img.idParent.equals(route.idRoute)}">
+        <div th:if="${img.idParent.equals(route.route.idRoute)}">
             <img th:src="@{/imageRoute/{imgId}(imgId=${img.idImage})}" height="60px"/><br/><br/>
         </div>
     </div>
     <div>
-        <p><b th:text="${route.rName}"></b> <span th:text="${route.getIdRoute()}"></span> | <a th:href="@{/route/{routeId}(routeId=${route.idRoute})}">Link...</a></p>
+        <p><b th:text="${route.route.rName}"></b> <span th:text="${route.route.getIdRoute()}"></span> | <a th:href="@{/route/{routeId}(routeId=${route.route.idRoute})}">Link...</a></p>
     </div>
 </div>
 
 
-<label><input type="checkbox" name="country" value="value1" > Checkbox 1</label><br>
-<label><input type="checkbox" name="country" value="value2" > Checkbox 2</label><br>
-<label><input type="checkbox" name="city" value="city1" > Checkbox 1</label><br>
-<label><input type="checkbox" name="city" value="city2" > Checkbox 2</label><br>
+<label><input type="checkbox" name="country" value="ukraine" > ukraine</label><br>
+<label><input type="checkbox" name="country" value="england" > england</label><br>
+<label><input type="checkbox" name="rank" value="1" > 1 star</label><br>
+<label><input type="checkbox" name="rank" value="2" > 2 stars</label><br>
+<label><input type="checkbox" name="rank" value="3" > 3 stars</label><br>
+<label><input type="checkbox" name="rank" value="4" > 4 stars</label><br>
+<label><input type="checkbox" name="rank" value="5" > 5 stars</label><br>
+<label><input type="checkbox" name="typeRoute" value="single" > single</label><br>
+<label><input type="checkbox" name="typeRoute" value="multi" > multi</label><br>
 </body>
 
 <script>
@@ -44,7 +49,7 @@
             });
             var redirectUrl = '/';
             for (var name in checkboxes) {
-                var values = checkboxes[name].join(',');
+                var values = checkboxes[name].join(',');  ////','
                 if (values) {
                     redirectUrl += (redirectUrl === '/' ? '' : ',') + values;
                 }

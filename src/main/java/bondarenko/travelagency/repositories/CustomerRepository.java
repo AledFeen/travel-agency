@@ -37,6 +37,12 @@ public class CustomerRepository {
         return jdbc.queryForObject(sql, source, new CountryMapper());
     }
 
+    public List<Country> getCountries() {
+        String sql ="select * from country";
+        MapSqlParameterSource source = new MapSqlParameterSource();
+        return jdbc.query(sql, source, new CountryMapper());
+    }
+
     public List<StartPlace> getStartPlaces() {
         String sql ="select * from startPlace";
         MapSqlParameterSource source = new MapSqlParameterSource();
