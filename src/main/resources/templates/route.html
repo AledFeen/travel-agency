@@ -67,7 +67,7 @@
         <p th:text="${reservation.minPrice}"></p>
         <p th:text="${reservation.maxPrice}"></p>
     </div>
-    <form method="post" action="/reservation/delete">
+    <form method="post" action="/admin/reservation/delete">
         <input type="hidden" name="idReservation" th:value="${reservation.id}">
         <input type="hidden" name="idRoute" th:value="${route.idRoute}">
         <input type="submit" value="del">

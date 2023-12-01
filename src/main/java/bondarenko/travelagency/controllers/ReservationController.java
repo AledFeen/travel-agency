@@ -30,7 +30,7 @@ public class ReservationController {
     }
 
     @PostMapping("/reservation/delete")
-    public String deleteReservarion(@RequestParam("idReservation") int idReserv, @RequestParam("idRoute") int idRoute) {
+    public String deleteReservation(@RequestParam("idReservation") int idReserv, @RequestParam("idRoute") int idRoute) {
         reservationRepository.deleteReservation(idReserv);
         return "redirect:/admin/route/" + idRoute;
     }

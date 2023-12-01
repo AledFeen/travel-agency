@@ -4,7 +4,6 @@ import bondarenko.travelagency.models.dto.ChangeDto;
 import bondarenko.travelagency.models.dto.ChangedList;
 import bondarenko.travelagency.models.dto.ReservationDto;
 import bondarenko.travelagency.repositories.CustomerRepository;
-import bondarenko.travelagency.repositories.HotelRepository;
 import bondarenko.travelagency.repositories.ReservationRepository;
 import bondarenko.travelagency.repositories.RouteRepository;
 import bondarenko.travelagency.services.CustomerService;
@@ -15,7 +14,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller

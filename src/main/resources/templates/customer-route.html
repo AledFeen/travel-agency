@@ -1,85 +1,257 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Volodymyr Bondarenko">
+    <meta name="generator" content="Hugo 0.84.0">
+    <title>Profile</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+            integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
+            crossorigin="anonymous"></script>
 </head>
 <body>
 
-    <span th:text="${route.idRoute}"></span>
-    <span th:text = "${route.rName}"></span>
-    <span th:text = "${route.description}"></span>
-    <span th:text = "${route.peopleCount}"></span>
-    <span th:text = "${route.startData}"></span>
-    <span th:text = "${route.endData}"></span>
-    <span th:text = "${route.minPrice}"></span>
-    <span th:text = "${route.maxPrice}"></span>
-    <span th:text = "${route.transportPrice}"></span>
-
-    <div th:each="img : ${images}">
-        <img th:src="@{/imageRoute/{imgId}(imgId=${img.id})}" height="60px"/><br/><br/>
-    </div>
-
-    <form th:action="@{/changeForm}" th:object="${changedList}" method="post">
-        <div th:each = "d, dtoIndex : ${dto}">
-            <div>
-                <span th:text="${d.reservation.id}"></span>
-                <span th:text="${d.reservation.idHotel}"></span>
-                <span th:text="${d.reservation.minPrice}"></span>
-                <span th:text="${d.reservation.maxPrice}"></span>
-                <span th:text="${d.hotel.hotelName}"></span>
-                <div th:each="fac : ${d.facilityList}">
-                    <div th:text="${fac.facilityName}"></div>
-                    <div th:text="${fac.facilityDescription}"></div>
-                </div>
-                <div th:each="est : ${d.establishmentList}">
-                    <div th:text="${est.name}"></div>
-                    <div th:text="${est.description}"></div>
-                    <div th:text="${est.type}"></div>
-                </div>
-                <div th:each="himg : ${d.hotelImages}">
-                    <img th:src="@{/imageHotel/{imgId}(imgId=${himg.id})}" height="60px"/><br/><br/>
-                </div>
-                <span th:text="${d.firm.firmName}"></span>
-                <span th:text="${d.country.countryName}"></span>
-
-                <p>Rooms</p>
-                <div th:each="room : ${d.rooms}">
-                    <div>idRoom</div>
-                    <div th:text="${room.room.idRoom}"></div>
-
-                    <div th:each="am : ${room.amenities}">
-                        <div th:text="am.name"></div>
-                    </div>
-
-                    <div th:each="rimg : ${room.roomImages}">
-                        <img th:src="@{/imageRoom/{imgId}(imgId=${rimg.id})}" height="60px"/><br/><br/>
-                    </div>
-                </div>
-
-                <div th:each="ft : ${d.foodTypes}">
-                    <div th:text="${ft.name}"></div>
-                    <div th:text="${ft.price}"></div>
-                </div>
-
-                <label>
-                    <select th:field="*{changeDtoList[__${dtoIndex.index}__].idRoom}">
-                        <option th:each="item : ${d.rooms}"  th:value="${item.room.idRoom}"  th:text="${item.room.idRoom}"></option>
-                    </select>
-                </label>
-
-                <label>
-                    <select th:field="*{changeDtoList[__${dtoIndex.index}__].idFoodType}">
-                        <option th:each="item : ${d.foodTypes}"  th:value="${item.idFoodType}"  th:text="${item.name}"></option>
-                    </select>
-                </label>
-
-                <input th:id="${'changeDtoList'+__${dtoIndex.index}__+'.idReservation'}" th:name="${'changeDtoList['+__${dtoIndex.index}__+'].idReservation'}" th:value="${d.reservation.id}" type="hidden"/>
-                <input name="idRoute" type="hidden" th:value="${route.idRoute}">
-                <p></p>
-            </div>
+<nav class="navbar navbar-expand navbar-dark bg-dark">  <!-- Header -->
+    <div class="container-fluid">
+        <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" th:href="@{/}">Main</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/index}">Profile</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-bs-toggle="dropdown"
+                       aria-expanded="false">Admin panel</a>
+                    <ul class="dropdown-menu" aria-labelledby="dropdown01">
+                        <li><a class="dropdown-item" href="#">Hotels</a></li>
+                        <li><a class="dropdown-item" href="#">Routes</a></li>
+                    </ul>
+                </li>
+            </ul>
         </div>
-        <button type="submit">Submit</button>
+    </div>
+</nav> <!-- End header -->
+
+<div class="container-md card mb-3 mt-3 pt-3 pb-3"> <!-- Container block -->
+    <form th:action="@{/changeForm}" th:object="${changedList}" method="post">
+        <div class="d-flex flex-row justify-content-center"><!-- Route block -->
+            <div class="w-75 text-center pt-3 pb-3">
+                <div class="h1 text-center"><span th:text="${route.rName}"></span></div>
+                <div class="card-body">
+                    <div class="card-subtitle mb-2 text-muted">Date: <span th:text="${route.startData}"></span> - <span
+                            th:text="${route.endData}"></span></div>
+                    <div class="card-subtitle text-dark fw-bold mb-2">Price: <span th:text="${route.minPrice}"></span>$
+                        - <span th:text="${route.maxPrice}"></span>$ per one
+                    </div>
+                    <p class="card-text small" th:text="${route.description}">
+                    </p>
+                </div>
+                <div class="mt-3 mb-3 ms-5 me-5 text-center">
+                    <div th:each="img : ${images}">
+                        <img th:src="@{/imageRoute/{imgId}(imgId=${img.id})}" class="card-img-top"/><br/><br/>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- Route block -->
+
+        <div class="card ms-3 me-3" th:each="d, dtoIndex : ${dto}"><!-- Hotel block -->
+            <div class="card-title h3 text-center mt-3"><span th:text="${d.hotel.hotelName}"></span></div>
+            <div class="d-flex flex-row ms-3 me-3 mt-3 mb-3">
+                <div class="w-50">
+                    <div class="card-subtitle mb-2"><b>Country:</b> <span th:text="${d.country.countryName}"></span>
+                    </div>
+                    <div class="card-subtitle mb-2"><b>City:</b> <span th:text="${d.hotel.city}"></span></div>
+                    <div class="card-subtitle mb-2"><b>Group:</b> <span th:text="${d.firm.firmName}"></span></div>
+                    <div class="card-subtitle text-dark mb-2"><b>Rank:</b> <span th:text="${d.hotel.rank}"></span> star
+                    </div>
+                    <div class="card-subtitle text-dark mb-2"><b>Price:</b> <span
+                            th:text="${d.reservation.minPrice}"></span>$ - <span
+                            th:text="${d.reservation.maxPrice}"></span>$ per one
+                    </div>
+                    <div class="card-subtitle mb-2"><b>Date:</b> <span th:text="${d.reservation.startDate}"></span> -
+                        <span th:text="${d.reservation.endDate}"></span></div>
+                </div>
+                <div class="w-50">
+                    <div th:id="${d.hotel.hotelName + d.hotel.id}" class="carousel slide" data-ride="carousel">
+                        <div class="carousel-inner">
+                            <th:block th:each="himg, inf : ${d.hotelImages}">
+                                <span th:if="${himg.getSize() == 0}">
+                                    <div class="carousel-item active">
+                                        <svg class="d-block w-100" xmlns="http://www.w3.org/2000/svg"
+                                             role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid
+                                        slice"
+                                             focusable="false"
+                                             viewBox="0 0 16 9" width="100%" height="100%">
+                                            <title>Placeholder</title>
+                                            <rect width="100%" height="100%" fill="#55595c"/>
+                                            <text x="50%" y="50%" fill="#eceeef" dy=".3em"></text>
+                                        </svg>
+                                    </div>
+                                </span>
+                                <div th:class="${inf.index}== 0  ? 'carousel-item active':'carousel-item'">
+                                    <img th:src="@{/imageHotel/{imgId}(imgId=${himg.id})}" class="card-img"
+                                         alt=""/><br/>
+                                </div>
+                            </th:block>
+                        </div>
+                        <button class="carousel-control-prev" type="button"
+                                th:data-bs-target="${'#' + d.hotel.hotelName + d.hotel.id}" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button"
+                                th:data-bs-target="${'#' + d.hotel.hotelName + d.hotel.id}" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 ms-5 me-5 mb-3 mt-3"> <!-- More block -->
+                <div class="col h-100">
+                    <div class="card pt-3 pb-3">
+                        <div class="h5 card-title text-center">Establishment</div>
+                        <div th:each="est : ${d.establishmentList}">
+                            <div class="card-subtitle ms-3"><span th:text="${est.name}"></span></div>
+                            <div class="card-subtitle ms-3"><span th:text="${est.type}"></span></div>
+                            <div class="card-text small ms-3 mb-2"><span th:text="${est.description}"></span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col h-100">
+                    <div class="card pt-3 pb-3">
+                        <div class="h5 card-title text-center">Facilities</div>
+                        <div th:each="fac : ${d.facilityList}">
+                            <div class="card-subtitle ms-3">Name: <span th:text="${fac.facilityName}"></span></div>
+                            <div class="card-text small ms-3 mb-2">Description: <span
+                                    th:text="${fac.facilityDescription}"></span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col h-100">
+                    <div class="card pt-3 pb-3">
+                        <div class="h5 card-title text-center">Food types</div>
+                        <div th:each="ft : ${d.foodTypes}">
+                            <div class="card-subtitle ms-3"><span th:text="${ft.name}"></span></div>
+                            <div class="card-subtitle ms-3">Price: <span th:text="${ft.price}"></span></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div><!-- More block -->
+            <div class="d-flex flex-row justify-content-center" th:each="room : ${d.rooms}"> <!-- Room block -->
+                <div class="card w-75 mb-3">
+                    <div class="d-flex flex-row ms-3 me-3 mt-3 mb-3">
+                        <div class="w-50">
+                            <div class="card-title mb-2"><b>Room:</b> <span th:text="${room.room.idRoom}"></span></div>
+                            <div class="card-subtitle mb-2"><b>Class:</b> <span th:text="${room.room.clas}"></span>
+                            </div>
+                            <div class="card-subtitle mb-2"><b>Room count:</b> <span
+                                    th:text="${room.room.roomsCount}"></span></div>
+                            <div class="card-subtitle text-dark mb-2"><b>Cleaning: </b> <span
+                                    th:text="${room.room.cleaning}"></span> times
+                            </div>
+                            <div class="card-subtitle text-dark mb-2"><b>Daily price:</b> <span
+                                    th:text="${room.room.dailyPrice}"></span>$
+                            </div>
+                            <div class="card-subtitle text-dark mb-2"><b>Amenities:</b>
+                                <div th:each="am : ${room.amenities}"><span th:text="${am.name}"></span>,</div>
+                            </div>
+                        </div>
+                        <div class="w-50">
+                            <div th:id="${'room' + room.room.idRoom}" class="carousel slide" data-ride="carousel">
+                                <div class="carousel-inner">
+                                    <th:block th:each="rimg, inf : ${room.roomImages}">
+                                <span th:if="${rimg.getSize() == 0}">
+                                    <div class="carousel-item active">
+                                        <svg class="d-block w-100" xmlns="http://www.w3.org/2000/svg"
+                                             role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid
+                                        slice"
+                                             focusable="false"
+                                             viewBox="0 0 16 9" width="100%" height="100%">
+                                            <title>Placeholder</title>
+                                            <rect width="100%" height="100%" fill="#55595c"/>
+                                            <text x="50%" y="50%" fill="#eceeef" dy=".3em"></text>
+                                        </svg>
+                                    </div>
+                                </span>
+                                        <div th:class="${inf.index}== 0  ? 'carousel-item active':'carousel-item'">
+                                            <img th:src="@{/imageRoom/{imgId}(imgId=${rimg.id})}" class="card-img"
+                                                 alt=""/><br/>
+                                        </div>
+                                    </th:block>
+                                </div>
+                                <button class="carousel-control-prev" type="button"
+                                        th:data-bs-target="${'#room' + room.room.idRoom}" data-bs-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Previous</span>
+                                </button>
+                                <button class="carousel-control-next" type="button"
+                                        th:data-bs-target="${'#room' + room.room.idRoom}" data-bs-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Next</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- Room block -->
+
+            <div class="d-flex flex-row justify-content-between mb-3 ms-3 me-3">
+                <div class="form-floating w-50 pe-3">
+                    <select class="form-select" id="floatingRoom" aria-label="Floating label select example"
+                            th:field="*{changeDtoList[__${dtoIndex.index}__].idRoom}">
+
+                        <option th:each="item : ${d.rooms}" th:value="${item.room.idRoom}"
+                                th:text="${item.room.idRoom}"></option>
+                    </select>
+                    <label for="floatingRoom">Choose room</label>
+                </div>
+
+                <div class="form-floating w-50">
+                    <select class="form-select" id="floatingFood" aria-label="Floating label select example"
+                            th:field="*{changeDtoList[__${dtoIndex.index}__].idFoodType}">
+
+                        <option th:each="item : ${d.foodTypes}" th:value="${item.idFoodType}"
+                                th:text="${item.name}"></option>
+                    </select>
+                    <label for="floatingFood">Choose food type</label>
+                </div>
+            </div>
+
+            <input th:id="${'changeDtoList'+__${dtoIndex.index}__+'.idReservation'}"
+                   th:name="${'changeDtoList['+__${dtoIndex.index}__+'].idReservation'}" th:value="${d.reservation.id}"
+                   type="hidden"/>
+            <input name="idRoute" type="hidden" th:value="${route.idRoute}">
+
+        </div><!-- Hotel block -->
+        <div class="d-flex flex-row justify-content-center mt-3 mb-3">
+            <button type="submit" class="btn btn-light btn-outline-dark btn-lg w-75">Checkout</button>
+        </div>
     </form>
+</div><!-- Container block -->
+
+<footer class="text-muted py-5 bg-dark"> <!-- Footer -->
+    <div class="container">
+        <p class="float-end mb-1">
+            <a class="link-dark" href="#">Back to top</a>
+        </p>
+        <p class="mb-1">Album example is &copy; Bootstrap, but please download and customize it for yourself!</p>
+        <p class="mb-0">New to Bootstrap? <a href="/">Visit the homepage</a> or read our <a
+                href="../getting-started/introduction/">getting started guide</a>.</p>
+    </div>
+</footer> <!-- Footer -->
+
 </body>
 </html>

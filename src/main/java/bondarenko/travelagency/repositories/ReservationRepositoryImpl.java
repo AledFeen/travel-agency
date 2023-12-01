@@ -41,8 +41,11 @@ public class ReservationRepositoryImpl implements ReservationRepository {
         MapSqlParameterSource source = new MapSqlParameterSource("id", idReservation);
         String sql = "Delete from route_reservation where idReservation = :id";
         jdbc.update(sql, source);
+        sql = "DELETE from changed where idReservation = :id";
+        jdbc.update(sql, source);
         sql = "Delete from reservation where idReservation = :id";
         jdbc.update(sql, source);
+
     }
 
     @Override
