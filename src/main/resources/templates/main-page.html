@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -19,14 +19,17 @@
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" th:href="@{/}">Main</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" sec:authorize="!isAuthenticated()">
+                    <a class="nav-link" th:href="@{/login}">Login</a>
+                </li>
+                <li class="nav-item" sec:authorize="isAuthenticated()">
                     <a class="nav-link" th:href="@{/index}">Profile</a>
                 </li>
-                <li class="nav-item dropdown">
+                <li class="nav-item dropdown" sec:authorize="hasRole('ROLE_ADMIN')">
                     <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-bs-toggle="dropdown" aria-expanded="false">Admin panel</a>
                     <ul class="dropdown-menu" aria-labelledby="dropdown01">
-                        <li><a class="dropdown-item" href="#">Hotels</a></li>
-                        <li><a class="dropdown-item" href="#">Routes</a></li>
+                        <li><a class="dropdown-item" th:href="@{/admin/hotels}">Hotels</a></li>
+                        <li><a class="dropdown-item" th:href="@{/admin/routes}">Routes</a></li>
                     </ul>
                 </li>
             </ul>
@@ -166,10 +169,12 @@
                                 </div>
                             </div>
                             <div class="card-body">
-                                <div class="card-title text-center"><a class="link-dark" th:text="${route.route.idRoute}" th:href="@{/route/{routeId}(routeId=${route.route.idRoute})}">Route one</a></div>
-                                <div class="card-text">Ukraine, Poland</div>
-                                <div class="card-text"><span th:text="${route.route.startData}"></span> - <span th:text="${route.route.endData}"></span> </div>
-                                <div class="card-text text-dark fw-bold"><span th:text="${route.route.minPrice}"></span> - <span th:text="${route.route.maxPrice}"></span></div>
+                                <div class="card-title text-center"><a class="link-dark" th:text="${route.route.rName}" th:href="@{/route/{routeId}(routeId=${route.route.idRoute})}">Route one</a></div>
+                                <div class="card-text text-truncate" th:inline="text">
+                                    <span th:each="re : ${route.reservations}" th:text="${re.country.countryName + ' '}"></span>
+                                </div>
+                                <div class="card-text"><span th:text="${'Date: ' + route.route.startData}"></span> - <span th:text="${route.route.endData}"></span> </div>
+                                <div class="card-text text-dark fw-bold"><span th:text="${'Price: ' +route.route.minPrice}"></span> - <span th:text="${route.route.maxPrice}"></span></div>
                                 <p class="card-text small text-truncate" th:text="${route.route.description}"></p>
                                 <div class="d-flex justify-content-between align-items-center" th:href="@{/route/{routeId}(routeId=${route.route.idRoute})}">
                                     <a class="btn btn-sm btn-outline-dark w-100" th:href="@{/route/{routeId}(routeId=${route.route.idRoute})}">View</a>
@@ -184,13 +189,17 @@
 
 </div> <!-- Content block -->
 
-<footer class="text-muted py-5 bg-dark"> <!-- Footer -->
+<footer class="text-muted py-3 bg-dark"> <!-- Footer -->
     <div class="container">
         <p class="float-end mb-1">
             <a class="link-light" href="#">Back to top</a>
         </p>
-        <p class="mb-1">Album example is &copy; Bootstrap, but please download and customize it for yourself!</p>
-        <p class="mb-0">New to Bootstrap? <a href="/">Visit the homepage</a> or read our <a href="../getting-started/introduction/">getting started guide</a>.</p>
+        <div>
+            <h5 class="text-light align-content-center">Contact info</h5>
+            <div class="mt-2 mb-2">Adress: Ukraine, Kyiv</div>
+            <div  class="mb-2">Телефон: +38 (XXX) XXX-XX-XX</div>
+            <div>Email: agency@gmail.com</div>
+        </div>
     </div>
 </footer> <!-- Footer -->
 </body>

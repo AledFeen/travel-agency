@@ -1,17 +1,43 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Volodymyr Bondarenko">
+    <meta name="generator" content="Hugo 0.84.0">
+    <title>Add establishment</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
 </head>
-<body>
-<a th:href="@{/admin/hotel/{idHotel}(idHotel=${idHotel})}">Back</a>
-<form th:action="@{/admin/establishment/add}" method="post">
-    name: <input type="text" name="name"/><br/><br/>
-    description: <input type="text" name="description"/><br/><br/>
-    type: <input type="text" name="type"/><br/><br/>
-    <input type="hidden" name="idHotel" th:value="${idHotel}">
-    <input type="submit" value="Add"/>
-</form>
+<body class="text-center d-flex justify-content-center vh-100">
+<main class="align-self-center">
+    <form th:action="@{/admin/establishment/add}" method="post">
+        <h1 class="h3 fw-normal">Add new establishment</h1>
+
+        <div class="form-floating mb-3 mt-3">
+            <input type="text" name="name" class="form-control" id="name" placeholder="">
+            <label for="name">Name</label>
+        </div>
+
+        <div class="form-floating mb-3">
+            <input type="text" name="description" class="form-control" id="desc" placeholder="">
+            <label for="desc">Description</label>
+        </div>
+
+        <div class="form-floating mb-3">
+            <input type="text" name="type" class="form-control" id="type" placeholder="">
+            <label for="type">Type</label>
+        </div>
+
+        <input type="hidden" name="idHotel" th:value="${idHotel}">
+
+        <input class="w-100 btn btn-lg btn-light btn-outline-dark mb-2 mt-2" type="submit" th:value="Add"/>
+    </form>
+    <div class="mb-5">
+        Go back? <a th:href="@{/admin/hotel/{idHotel}(idHotel=${idHotel})}" class="link-dark">back</a>
+    </div>
+</main>
 </body>
 </html>

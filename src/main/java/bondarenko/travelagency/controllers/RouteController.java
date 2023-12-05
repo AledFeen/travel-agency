@@ -3,11 +3,14 @@ package bondarenko.travelagency.controllers;
 import bondarenko.travelagency.models.Route;
 import bondarenko.travelagency.repositories.ReservationRepository;
 import bondarenko.travelagency.repositories.RouteRepository;
+import bondarenko.travelagency.services.CustomerService;
 import bondarenko.travelagency.services.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import javax.swing.text.StyledEditorKit;
 
 @Controller
 @RequestMapping("/admin")
@@ -18,10 +21,13 @@ public class RouteController {
     ReservationRepository reservationRepository;
     @Autowired
     ImageService imageService;
+    @Autowired
+    CustomerService customerService;
 
     @GetMapping("/routes")
     public String getRoutes(Model model) {
-        model.addAttribute("routes", routeRepository.getRouteList());
+        model.addAttribute("routes", customerService.getRoutes());
+        //model.addAttribute("images", imageService.getImageForFindList("route_image"));
         return "routes";
     }
 

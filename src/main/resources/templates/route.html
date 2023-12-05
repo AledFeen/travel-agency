@@ -1,79 +1,136 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>route</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Volodymyr Bondarenko">
+    <meta name="generator" content="Hugo 0.84.0">
+    <title>Route</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
 </head>
 <body>
-<form th:action="@{/admin/route/update}" method="post">
-    <input type="hidden" name="idRoute" th:value="${route.idRoute}"/>
-    <label>
-        <h6>Name</h6>
-        <input type="text" name="rName" th:value = "${route.rName}"/>
-    </label>
-    <label>
-        <h6>description</h6>
-        <input type="text" name="description" th:value = "${route.description}"/>
-    </label>
-    <label>
-        <h6>City</h6>
-        <input type="number" name="peopleCount" th:value = "${route.peopleCount}"/>
-    </label>
-    <label>
-        <h6>Location</h6>
-        <input type="date" name="startData" th:value = "${route.startData}"/>
-    </label>
-    <label>
-        <h6>Location</h6>
-        <input type="date" name="endData" th:value = "${route.endData}"/>
-    </label>
-    <label>
-        <h6>minimal</h6>
-        <input type="number" name="minPrice" th:value = "${route.minPrice}"/>
-    </label>
-    <label>
-        <h6>maximum</h6>
-        <input type="number" name="maxPrice" th:value = "${route.maxPrice}"/>
-    </label>
-    <label>
-        <h6>transportPrice</h6>
-        <input type="number" name="transportPrice" th:value = "${route.transportPrice}"/>
-    </label>
-    <button type="submit" value="Update">Update</button>
-</form>
-
-<div th:each="img : ${images}">
-    <img th:src="@{/imageRoute/{imgId}(imgId=${img.id})}" height="60px"/><br/><br/>
-    <form th:action="@{/image/delete/{id}(id=${img.id})}" method="post">
-        <input type="hidden" name="idParent" th:value="${route.idRoute}">
-        <input type="hidden" name="table" th:value="route_image"/>
-        <input type="submit" value="Delete"/>
-    </form>
-</div>
-
-<h3>Image</h3>
-<form th:action="@{/image/add}" method="post" enctype="multipart/form-data">
-    <input type="file" name="file"/><br/><br/>
-    <input type="hidden" name="idParent" th:value="${route.idRoute}">
-    <input type="hidden" name="table" th:value="route_image"/>
-    <input type="submit" value="Add"/>
-</form>
-
-<b>Reservations</b>
-<div th:each = "reservation : ${reservations}">
-    <div>
-        <p th:text="${reservation.id}"></p>
-        <p th:text="${reservation.idHotel}"></p>
-        <p th:text="${reservation.minPrice}"></p>
-        <p th:text="${reservation.maxPrice}"></p>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="nav-item text-light p-lg-3">Admin</div>
+    <div class="container-fluid">
+        <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" th:href="@{/}">Main</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/index}">Profile</a>
+                </li>
+                <li class="nav-item dropdown active">
+                    <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-bs-toggle="dropdown" aria-expanded="false">Admin panel</a>
+                    <ul class="dropdown-menu" aria-labelledby="dropdown01">
+                        <li><a class="dropdown-item" th:href="@{/admin/hotels}">Hotels</a></li>
+                        <li><a class="dropdown-item" th:href="@{/admin/routes}">Routes</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <a class="nav-item text-decoration-none p-rg-3" th:href="@{/logout}">Logout</a>
     </div>
-    <form method="post" action="/admin/reservation/delete">
-        <input type="hidden" name="idReservation" th:value="${reservation.id}">
-        <input type="hidden" name="idRoute" th:value="${route.idRoute}">
-        <input type="submit" value="del">
-    </form>
-</div>
+</nav>
 
-<p><a th:href="@{/admin/reservation/add/{idRoute}(idRoute=${route.idRoute})}">AddReservation</a></p>
+<div class="container-md card mb-3 mt-3 pt-3 pb-3"> <!-- Container block -->
+    <div class="d-flex flex-row justify-content-center"><!-- Route block -->
+        <div class="w-75 text-center pt-3 pb-3">
+            <form th:action="@{/admin/route/update}" method="post">
+                <h1 class="h3 fw-normal" th:text="${route.rName}"></h1>
+                <input type="hidden" name="idRoute" th:value="${route.idRoute}"/>
+                <div class="form-floating mb-4 mt-4">
+                    <input type="text" name="rName" th:value = "${route.rName}" class="form-control" id="name" placeholder="name">
+                    <label for="name">Route name</label>
+                </div>
+                <div class="form-floating mb-4 mt-4">
+                    <input type="text" name="peopleCount" th:value = "${route.peopleCount}" class="form-control" id="count" placeholder="name">
+                    <label for="count">People count</label>
+                </div>
+                <div class="form-floating mb-4">
+                    <input type="text" name="minPrice" th:value = "${route.minPrice}" class="form-control" id="minPrice" placeholder="min">
+                    <label for="minPrice">Min price</label>
+                </div>
+                <div class="form-floating mb-4">
+                    <input type="text" name="maxPrice" th:value = "${route.maxPrice}" class="form-control" id="maxPrice" placeholder="max">
+                    <label for="maxPrice">Max price</label>
+                </div>
+                <div class="form-floating mb-4">
+                    <input type="text" name="transportPrice" th:value = "${route.transportPrice}" class="form-control" id="totalPrice" placeholder="max">
+                    <label for="totalPrice">Transport price</label>
+                </div>
+                <div class="d-flex flex-row justify-content-between" style="margin-left: 25%; margin-right: 25%">
+                    <div class="form-floating">
+                        <input type="date" class="form-control"name="startData" th:value = "${route.startData}" id="startDate"/>
+                        <label for="startDate">Start date</label>
+                    </div>
+                    <div class="form-floating">
+                        <input type="date" class="form-control" name="endData" th:value = "${route.endData}"  id="endDate"/><br/><br/>
+                        <label for="endDate">End date</label>
+                    </div>
+                </div>
+                <div class="form-floating mb-4">
+                    <textarea type="text" name="description" th:text = "${route.description}" class="form-control" id="description" placeholder="Password"></textarea>
+                    <label for="description">Description</label>
+                </div>
+                <input class="w-100 btn btn-lg btn-light btn-outline-dark mb-4 mt-4" type="submit" value="update"/>
+            </form>
+            <div class="mt-3 mb-3 ms-5 me-5 text-center" th:each="img : ${images}">
+                <img th:src="@{/imageRoute/{imgId}(imgId=${img.id})}" class="card-img-top"/><br/><br/>
+                <form th:action="@{/image/delete/{id}(id=${img.id})}" method="post">
+                    <input type="hidden" name="idParent" th:value="${route.idRoute}">
+                    <input type="hidden" name="table" th:value="route_image"/>
+                    <input class="w-100 btn btn-lg btn-light btn-outline-dark mb-4 mt-4" type="submit" value="clear"/>
+                </form>
+            </div>
+
+            <form th:action="@{/image/add}" method="post" enctype="multipart/form-data">
+                <div class="input-group mb-3">
+                    <label class="input-group-text" for="inputGroupFile01">Upload</label>
+                    <input type="file" name="file" class="form-control" id="inputGroupFile01">
+                    <input type="hidden" name="idParent" th:value="${route.idRoute}">
+                    <input type="hidden" name="table" th:value="route_image"/>
+                    <input class="w-100 btn btn-lg btn-light btn-outline-dark mb-4 mt-4" type="submit" value="Add image"/>
+                </div>
+            </form>
+            <h3 class="text-center">Reservations</h3>
+            <div  class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 ms-5 me-5 mb-3 mt-3 text-start">
+                <div th:each = "reservation : ${reservations}"> <!-- More block -->
+                    <div class="col h-100">
+                        <div class="card pt-3 pb-3">
+                            <div class="card-subtitle ms-3" th:text="${'id: ' + reservation.id}"></div>
+                            <div class="card-subtitle ms-3" ><a th:text="${'idHotel: ' + reservation.idHotel}" class="text-dark" href="#"></a></div>
+                            <div class="card-subtitle ms-3" th:text="${'min price: ' + reservation.minPrice}"></div>
+                            <div class="card-subtitle ms-3" th:text="${'max price: ' + reservation.maxPrice}"></div>
+                            <form method="post" action="/admin/reservation/delete">
+                                <input type="hidden" name="idReservation" th:value="${reservation.id}">
+                                <input type="hidden" name="idRoute" th:value="${route.idRoute}">
+                                <div class="text-center mt-2 mb-1">
+                                    <input class="w-75 btn btn-light btn-outline-dark" type="submit" value="delete"/>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div><!-- More block -->
+            </div>
+            <a th:href="@{/admin/reservation/add/{idRoute}(idRoute=${route.idRoute})}" class="w-100 btn btn-lg btn-light btn-outline-dark mb-4 mt-4" type="submit">Add reservation</a>
+        </div>
+    </div> <!-- Route block -->
+</div><!-- Container block -->
+
+<footer class="text-muted py-5 bg-dark"> <!-- Footer -->
+    <div class="container">
+        <div class="float-end mb-2">
+            <a class="link-light" href="#">Back to top</a>
+        </div>
+        <div>
+            <a class="link-light" th:href="@{/admin/routes}">Back to routes</a>
+        </div>
+    </div>
+</footer> <!-- Footer -->
+
 </body>
 </html>

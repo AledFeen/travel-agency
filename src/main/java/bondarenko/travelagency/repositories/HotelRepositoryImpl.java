@@ -88,7 +88,7 @@ public class HotelRepositoryImpl implements HotelRepository {
     @Override
     @Transactional
     public void addEstablishmentToHotel(EstablishmentDto establishment) {
-        String sql = "Select * from establish_type where estTypeName = :type";
+        String sql = "Select * from establish_type where estTypeName = :type limit 1";
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
         parameterSource.addValue("type", establishment.getType());
         EstType type = jdbc.queryForObject(sql, parameterSource, new EstTypeMapper());

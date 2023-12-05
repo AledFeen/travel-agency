@@ -1,50 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Add and select Amenity</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Volodymyr Bondarenko">
+    <meta name="generator" content="Hugo 0.84.0">
+    <title>Hotel</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
 </head>
 <body>
-<a th:href="@{/admin/hotel/room/{id}(id=${idRoom})}">Back</a>
+<div class="container-md card mb-3 mt-3 pt-3 pb-3"> <!-- Container block -->
+    <div class="d-flex flex-row justify-content-center"><!-- Route block -->
+        <div class="w-75 text-center pt-3 pb-3">
 
-<div th:each = "amenity : ${allAmenities}">
-    <div>
-        <p><b th:text="${amenity.idAmenity}"></b> <span th:text="${amenity.name}"></span></p>
-        <form th:action="@{/amenity/delete}" method="post">
-            <input type="hidden" name="idAmenity" th:value="${amenity.idAmenity}">
-            <input type="hidden" name="idRoom" th:value="${idRoom}">
-            <button type="submit" value="delete">X</button>
-        </form>
+            <h3 class="text-center">All amenities</h3>
+            <div  class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 ms-5 me-5 mb-3 mt-3 text-start">
+                <div th:each = "amenity : ${allAmenities}"> <!-- More block -->
+                    <div class="col h-100">
+                        <div class="card pt-3 pb-3">
+                            <div class="card-subtitle ms-3" th:text="${'id: ' + amenity.idAmenity}"></div>
+                            <div class="card-subtitle ms-3" th:text="${'name: ' + amenity.name}"></div>
+                            <form th:action="@{/amenity/delete}" method="post">
+                                <input type="hidden" name="idAmenity" th:value="${amenity.idAmenity}">
+                                <input type="hidden" name="idRoom" th:value="${idRoom}">
+                                <div class="text-center mt-2 mb-1">
+                                    <input class="w-75 btn btn-light btn-outline-dark" type="submit" value="delete"/>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div><!-- More block -->
+            </div>
+
+            <h3 class="text-center">Add amenity</h3>
+
+            <form th:action="@{/admin/amenity/add}" method="post">
+                <div class="w-100 form-floating mb-4 mt-4">
+                    <input type="text" name="name" class="form-control" id="name" placeholder="name">
+                    <label for="name">Name</label>
+                </div>
+                <input type="hidden" name="idRoom" th:value="${idRoom}">
+                <div class="text-center mt-2 mb-4">
+                    <input class="w-100 btn btn-light btn-outline-dark" type="submit" value="add"/>
+                </div>
+            </form>
+
+            <h3 class="text-center">Room amenities</h3>
+
+            <div  class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 ms-5 me-5 mb-3 mt-3 text-start">
+                <div th:each = "amenity : ${roomAmenities}"> <!-- More block -->
+                    <div class="col h-100">
+                        <div class="card pt-3 pb-3">
+                            <div class="card-subtitle ms-3" th:text="${'name: ' + amenity.name}"></div>
+                            <form th:action="@{/admin/room/amenity/delete}" method="post">
+                                <input type="hidden" name="idAmenity" th:value="${amenity.idAmenity}">
+                                <input type="hidden" name="idRoom" th:value="${idRoom}">
+                                <div class="text-center mt-2 mb-1">
+                                    <input class="w-75 btn btn-light btn-outline-dark" type="submit" value="delete"/>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div><!-- More block -->
+            </div>
+
+            <h3 class="text-center">Choose amenity</h3>
+
+            <form th:action="@{/admin/room/amenity/add}" method="post">
+                <input type="hidden" name="idRoom" th:value="${idRoom}">
+                <select name="idAmenity" class="form-select" id="inputGroupSelect04" aria-label="Example select with button addon">
+                    <option th:each="item : ${filteredAmenities}" th:value="${item.idAmenity}" th:text="${item.name}"></option>
+                </select>
+                <div class="text-center mt-2 mb-4">
+                    <input class="w-100 btn btn-light btn-outline-dark" type="submit" value="add"/>
+                </div>
+            </form>
+
+
+        </div>
+    </div> <!-- Route block -->
+</div><!-- Container block -->
+
+<footer class="text-muted py-5 bg-dark"> <!-- Footer -->
+    <div class="container">
+        <div class="float-end mb-2">
+            <a class="link-light" href="#">Back to top</a>
+        </div>
+        <div>
+            <a class="link-light" th:href="@{/admin/hotel/room/{id}(id=${idRoom})}">Back to room</a>
+        </div>
     </div>
-</div>
-
-<form th:action="@{/admin/amenity/add}" method="post">
-    name: <input type="text" name="name"/><br/><br/>
-    <input type="hidden" name="idRoom" th:value="${idRoom}">
-    <input type="submit" value="Add"/>
-</form>
-
-<h1>Room amenities</h1>
-
-<div th:each = "amenity : ${roomAmenities}">
-    <div>
-        <p><span th:text="${amenity.name}"></span></p>
-        <form th:action="@{/admin/room/amenity/delete}" method="post">
-            <input type="hidden" name="idAmenity" th:value="${amenity.idAmenity}">
-            <input type="hidden" name="idRoom" th:value="${idRoom}">
-            <button type="submit" value="delete">X</button>
-        </form>
-    </div>
-</div>
-
-<form th:action="@{/admin/room/amenity/add}" method="post">
-    <label>
-        <select name="idAmenity">
-            <option th:each="item : ${filteredAmenities}"  th:value="${item.idAmenity}"  th:text="${item.name}"></option>
-        </select>
-        <input type="hidden" name="idRoom" th:value="${idRoom}">
-    </label>
-    <button type="submit" value="delete">Add</button>
-</form>
+</footer> <!-- Footer -->
 </body>
 </html>

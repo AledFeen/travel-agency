@@ -1,15 +1,264 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Volodymyr Bondarenko">
+    <meta name="generator" content="Hugo 0.84.0">
+    <title>Travel agency</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-<div th:each = "route : ${routes}">
-    <div>
-        <p><b th:text="${route.rName}"></b> <span th:text="${route.getIdRoute()}"></span> | <a th:href="@{/admin/route/{routeId}(routeId=${route.idRoute})}">Link...</a></p>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="nav-item text-light p-lg-3">Admin panel</div>
+    <div class="container-fluid">
+        <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" th:href="@{/}">Main</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/index}">Profile</a>
+                </li>
+                <li class="nav-item dropdown active">
+                    <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-bs-toggle="dropdown" aria-expanded="false">Admin panel</a>
+                    <ul class="dropdown-menu" aria-labelledby="dropdown01">
+                        <li><a class="dropdown-item" th:href="@{/admin/hotels}">Hotels</a></li>
+                        <li><a class="dropdown-item" th:href="@{/admin/routes}">Routes</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <a class="nav-item text-decoration-none p-rg-3" th:href="@{/logout}">Logout</a>
     </div>
-</div>
-<p><a th:href="@{/admin/route/add}">Add new route</a></p>
+</nav>
+<div class="d-flex flex-row w-100"> <!-- Content block -->
+
+    <div class="flex-shrink-0 p-3 bg-white" style="width: 15%"> <!-- Sidebar -->
+
+        <div href="/" class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
+            <span class="fs-5 fw-semibold">Filters</span>
+        </div>
+        <div class="mb-3"></div>
+
+        <ul class="list-unstyled ps-0">
+            <li>
+                <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#country-collapse" aria-expanded="false">
+                    Country
+                </button>
+                <div class="collapse" id="country-collapse">
+                    <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                        <li class="m-2">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="country" value="ukraine" id="country1">
+                                <label class="form-check-label" for="country1">
+                                    Ukraine
+                                </label>
+                            </div>
+                        </li>
+                        <li class="m-2">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="country" value="england" id="country2">
+                                <label class="form-check-label" for="country2">
+                                    England
+                                </label>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
+
+        <ul class="list-unstyled ps-0">
+            <li>
+                <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#types-collapse" aria-expanded="false">
+                    Type
+                </button>
+                <div class="collapse" id="types-collapse">
+                    <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                        <li class="m-2">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="typeRoute" value="single" id="flexCheckDefault">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    Single
+                                </label>
+                            </div>
+                        </li>
+                        <li class="m-2">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="typeRoute" value="multi" id="flexCheckChecked">
+                                <label class="form-check-label" for="flexCheckChecked">
+                                    Multi
+                                </label>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
+
+        <ul class="list-unstyled ps-0">
+            <li>
+                <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#ranks-collapse" aria-expanded="false">
+                    Rank
+                </button>
+                <div class="collapse" id="ranks-collapse">
+                    <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                        <li class="m-2">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="rank" value="1" id="rank1">
+                                <label class="form-check-label" for="rank1">
+                                    1 star
+                                </label>
+                            </div>
+                        </li>
+                        <li class="m-2">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="rank" value="2" id="rank2">
+                                <label class="form-check-label" for="rank2">
+                                    2 star
+                                </label>
+                            </div>
+                        </li>
+                        <li class="m-2">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="rank" value="3" id="rank3">
+                                <label class="form-check-label" for="rank3">
+                                    3 star
+                                </label>
+                            </div>
+                        </li>
+                        <li class="m-2">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="rank" value="4" id="rank4">
+                                <label class="form-check-label" for="rank4">
+                                    4 star
+                                </label>
+                            </div>
+                        </li>
+                        <li class="m-2">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="rank" value="5" id="rank5">
+                                <label class="form-check-label" for="rank5">
+                                    5 star
+                                </label>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
+
+        <a class="btn btn-sm btn-outline-dark w-100" th:href="@{/admin/route/add}">Add new route</a>
+
+    </div> <!-- Sidebar -->
+
+    <div class="d-flex flex-column bg-white" style="width: 85%"> <!-- Routes -->
+        <div class="album py-5 pe-4 ps-4 bg-white ">
+            <div class="container">
+
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+
+                    <div class="col" th:each = "route : ${routes}">
+                        <div th:if="${route != null}" class="card shadow-sm">
+                            <div class="card-body">
+                                <div class="card-title text-center"><a class="link-dark" th:text="${'Route ' + route.route.idRoute}" th:href="@{/route/{routeId}(routeId=${route.route.idRoute})}">Route one</a></div>
+                                <div class="card-text" th:text="${'Name: ' + route.route.rName}"></div>
+                                <div class="card-text text-truncate" th:inline="text">
+                                    <span th:each="re : ${route.reservations}" th:text="${re.country.countryName + ' '}"></span>
+                                </div>
+                                <div class="card-text"><span th:text="${'Date: ' + route.route.startData}"></span> - <span th:text="${route.route.endData}"></span> </div>
+                                <div class="card-text text-dark fw-bold"><span th:text="${'Price: ' +route.route.minPrice}"></span> - <span th:text="${route.route.maxPrice}"></span></div>
+                                <p class="card-text small text-truncate" th:text="${route.route.description}"></p>
+                                <div class="d-flex justify-content-between align-items-center" th:href="@{/route/{routeId}(routeId=${route.route.idRoute})}">
+                                    <a class="btn btn-sm btn-outline-dark w-100" th:href="@{/admin/route/{routeId}(routeId=${route.route.idRoute})}">View</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>  <!-- Routes -->
+
+</div> <!-- Content block -->
+
+<footer class="text-muted py-5 bg-dark"> <!-- Footer -->
+    <div class="container">
+        <div class="float-end mb-2">
+            <a class="link-light" href="#">Back to top</a>
+        </div>
+    </div>
+</footer> <!-- Footer -->
 </body>
+<style>
+    .btn-toggle {
+        display: inline-flex;
+        align-items: center;
+        padding: .25rem .5rem;
+        font-weight: 600;
+        color: rgba(0, 0, 0, .65);
+        background-color: transparent;
+        border: 0;
+    }
+    .btn-toggle:hover,
+    .btn-toggle:focus {
+        color: rgba(0, 0, 0, .85);
+        background-color: #d2f4ea;
+    }
+
+    .btn-toggle::before {
+        width: 1.25em;
+        line-height: 0;
+        content: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='rgba%280,0,0,.5%29' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M5 14l6-6-6-6'/%3e%3c/svg%3e");
+        transition: transform .35s ease;
+        transform-origin: .5em 50%;
+    }
+
+    .btn-toggle[aria-expanded="true"] {
+        color: rgba(0, 0, 0, .85);
+    }
+    .btn-toggle[aria-expanded="true"]::before {
+        transform: rotate(90deg);
+    }
+</style>
+<script>
+    $(document).ready(function() {
+        var currentUrl = window.location.pathname;
+        var urlValues = currentUrl.split('/').pop().split(',');
+        $('input[type="checkbox"]').change(function() {
+            var checkboxes = {};
+            $('input[type="checkbox"]').each(function() {
+                var checkboxName = $(this).attr('name');
+                var checkboxValue = $(this).val();
+
+                if ($(this).is(':checked')) {
+                    if (!checkboxes[checkboxName]) {
+                        checkboxes[checkboxName] = [];
+                    }
+                    checkboxes[checkboxName].push(checkboxValue);
+                }
+            });
+            var redirectUrl = '/';
+            for (var name in checkboxes) {
+                var values = checkboxes[name].join(',');  ////','
+                if (values) {
+                    redirectUrl += (redirectUrl === '/' ? '' : ',') + values;
+                }
+            }
+            window.location.href = redirectUrl;
+        });
+
+        $('input[type="checkbox"]').each(function() {
+            var checkboxName = $(this).attr('name');
+            var checkboxValue = $(this).val();
+            if (urlValues.includes(checkboxValue) && checkboxName) {
+                $(this).prop('checked', true);
+            }
+        });
+    });
+</script>
 </html>

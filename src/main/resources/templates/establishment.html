@@ -1,38 +1,50 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<a th:href="@{/admin/hotel/{idHotel}(idHotel=${establishment.idHotel})}">Back</a>
-<div>
-    <form th:action="@{/admin/establishment/update}" method="post">
-        <input type="hidden" name="idEstablishment" th:value="${establishment.idEstablishment}"/>
-        <label>
-            <h6>Name</h6>
-            <input type="text" name="name" th:value = "${establishment.name}"/>
-        </label>
-        <label>
-            <h6>Description</h6>
-            <input type="text" name="description" th:value = "${establishment.description}"/>
-        </label>
-        <label>
-            <select name="type">
-                <option th:each="item : ${types}"  th:value="${item.estTypeName}"  th:text="${item.estTypeName}" th:selected="${item.estTypeName == establishment.type}"></option>
-            </select>
-        </label>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Volodymyr Bondarenko">
+    <meta name="generator" content="Hugo 0.84.0">
+    <title>Add route</title>
 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+</head>
+<body class="text-center d-flex justify-content-center vh-100">
+<main class="align-self-center">
+    <form th:action="@{/admin/establishment/update}" method="post">
+        <h1 class="h3 fw-normal" th:text="${establishment.name}"></h1>
+
+        <input type="hidden" name="idEstablishment" th:value="${establishment.idEstablishment}"/>
         <input type="hidden" name="idHotel" readonly th:value = "${establishment.idHotel} "/>
-        <button type="submit" value="Update">Update</button>
+
+        <div class="form-floating mb-3 mt-3">
+            <input type="text"  name="name" th:value = "${establishment.name}" class="form-control" id="name" placeholder="">
+            <label for="name">Name</label>
+        </div>
+
+        <div class="form-floating mb-3 mt-3">
+            <input type="text" name="description" th:value = "${establishment.description}" class="form-control" id="desc" placeholder="">
+            <label for="desc">Description</label>
+        </div>
+
+        <select name="type" class="form-select" id="inputGroupSelect04" aria-label="Example select with button addon">
+            <option th:each="item : ${types}"  th:value="${item.estTypeName}"  th:text="${item.estTypeName}" th:selected="${item.estTypeName == establishment.type}"></option>
+        </select>
+
+        <input class="w-100 btn btn-lg btn-light btn-outline-dark mb-2 mt-2" type="submit" th:value="Update"/>
     </form>
-    <div>
-        <form th:action="@{/admin/establishment/delete}" method="post">
-            <input type="hidden" name="idEstablishment" th:value="${establishment.idEstablishment}"/>
-            <input type="hidden" name="idHotel" readonly th:value = "${establishment.idHotel}"/>
-            <button type="submit" value="Update">Delete</button>
-        </form>
+
+    <form th:action="@{/admin/establishment/delete}" method="post">
+        <input type="hidden" name="idEstablishment" th:value="${establishment.idEstablishment}"/>
+        <input type="hidden" name="idHotel" readonly th:value = "${establishment.idHotel}"/>
+        <input class="w-100 btn btn-lg btn-light btn-outline-dark mb-2 mt-2" type="submit" th:value="Delete"/>
+    </form>
+
+    <div class="mb-5">
+        Go back? <a th:href="@{/admin/hotel/{idHotel}(idHotel=${establishment.idHotel})}" class="link-dark">back</a>
     </div>
-</div>
+</main>
 </body>
 </html>
