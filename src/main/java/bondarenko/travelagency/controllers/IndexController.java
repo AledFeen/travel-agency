@@ -34,7 +34,7 @@ public class IndexController {
     @GetMapping("/")
     public String index(Model model) {
         //model.addAttribute("routes", routeRepository.getRouteList());
-        model.addAttribute("routes", customerService.getRoutes());
+        model.addAttribute("routes", customerService.getRoutes(0));
         model.addAttribute("images", imageService.getImageForFindList("route_image"));
         return "main-page";
     }
@@ -56,7 +56,7 @@ public class IndexController {
     @GetMapping("/{listAttribute}")
     public String filtered_index(@PathVariable(name = "listAttribute", required = false) List<String> listAttribute,
                            Model model) {
-        model.addAttribute("routes", customerService.getRoutes(listAttribute));
+        model.addAttribute("routes", customerService.getRoutes(listAttribute, 0));
         model.addAttribute("images", imageService.getImageForFindList("route_image"));
         return "main-page";
     }
@@ -85,8 +85,9 @@ public class IndexController {
                            @RequestParam("idRoute") int id,
                            @RequestParam("startPlace") int startPlace,
                            @RequestParam("phoneNumber") String phone,
+                           @RequestParam("email") String email,
                            Principal principal) {
-        customerService.saveDeal(changedList, id, startPlace, principal.getName(), phone);
+        customerService.saveDeal(changedList, id, startPlace, principal.getName(), phone, email);
         return "redirect:/";
     }
 }

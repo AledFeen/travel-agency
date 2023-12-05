@@ -145,6 +145,7 @@
                     <input type="number" name="price" class="form-control" id="price" placeholder="name">
                     <label for="price">Price</label>
                 </div>
+                <input type="hidden" name="idHotel" th:value="${hotel.id}">
                 <div class="input-group">
                     <select name="idFoodType" class="form-select" id="inputGroupSelect04" aria-label="Example select with button addon">
                         <option th:each="item : ${foodtypes}"  th:value="${item.id}"  th:text="${item.name}"></option>

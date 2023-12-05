@@ -22,4 +22,6 @@ public class Route {
     int minPrice;
     int maxPrice;
     int transportPrice;
+    int isPublish;
+
 }

@@ -19,6 +19,7 @@ public class RouteMapper implements RowMapper<Route> {
         route.setMinPrice(rs.getInt("minPriceRoute"));
         route.setMaxPrice(rs.getInt("maxPriceRoute"));
         route.setTransportPrice(rs.getInt("transportPrice"));
+        route.setIsPublish(rs.getInt("publish"));
         return route;
     }
 }

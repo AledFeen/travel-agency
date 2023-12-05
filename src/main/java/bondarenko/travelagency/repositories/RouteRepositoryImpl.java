@@ -16,8 +16,8 @@ public class RouteRepositoryImpl implements RouteRepository {
     @Override
     @Transactional
     public void addRoute(Route route) {
-        String sql = "INSERT INTO route( rName, description, peopleCount, startData, endData, minPriceRoute, maxPriceRoute, transportPrice)" +
-                "VALUES ( :name, :description, :count, :start, :end, :minPrice, :maxPrice, :trPrice)";
+        String sql = "INSERT INTO route( rName, description, peopleCount, startData, endData, minPriceRoute, maxPriceRoute, transportPrice, publish)" +
+                "VALUES ( :name, :description, :count, :start, :end, :minPrice, :maxPrice, :trPrice, :publ)";
         MapSqlParameterSource source = new MapSqlParameterSource();
         source.addValue("name", route.getRName());
         source.addValue("description", route.getDescription());
@@ -27,6 +27,7 @@ public class RouteRepositoryImpl implements RouteRepository {
         source.addValue("minPrice", 0);
         source.addValue("maxPrice", 0);
         source.addValue("trPrice", 0);
+        source.addValue("publ", 0);
         jdbc.update(sql, source);
     }
 
@@ -48,7 +49,7 @@ public class RouteRepositoryImpl implements RouteRepository {
     @Transactional
     public void updateRoute(Route route) {
         String sql = "UPDATE route SET rName = :name, description = :description, peopleCount = :count, startData = :start," +
-                " endData =:end, minPriceRoute = :minPrice, maxPriceRoute = :maxPrice, transportPrice = :trPrice WHERE idRoute = :id";
+                " endData =:end, minPriceRoute = :minPrice, maxPriceRoute = :maxPrice, transportPrice = :trPrice, publish = :publ WHERE idRoute = :id";
         MapSqlParameterSource source = new MapSqlParameterSource();
         source.addValue("id", route.getIdRoute());
         source.addValue("name", route.getRName());
@@ -59,6 +60,7 @@ public class RouteRepositoryImpl implements RouteRepository {
         source.addValue("minPrice", route.getMinPrice());
         source.addValue("maxPrice", route.getMaxPrice());
         source.addValue("trPrice", route.getTransportPrice());
+        source.addValue("publ", route.getIsPublish());
         jdbc.update(sql, source);
     }
 }

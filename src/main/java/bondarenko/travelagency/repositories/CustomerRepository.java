@@ -49,14 +49,15 @@ public class CustomerRepository {
         return jdbc.query(sql, source, new StartPlaceMapper());
     }
     @Transactional
-    public void saveDeal(ChangedList changedList, int idRoute, int startPlace, String username, int totalPrice, String phone) {
-        String sql ="insert into deal(idRoute, userLogin, totalPrice, idStatus, idStartPlace, phoneNumber) values(:idRoute, :username, :totalPrice, 1, :startPlace, :phone)";
+    public void saveDeal(ChangedList changedList, int idRoute, int startPlace, String username, int totalPrice, String phone, String email) {
+        String sql ="insert into deal(idRoute, userLogin, totalPrice, idStatus, idStartPlace, phoneNumber, email) values(:idRoute, :username, :totalPrice, 1, :startPlace, :phone, :email)";
         MapSqlParameterSource source = new MapSqlParameterSource();
         source.addValue("idRoute", idRoute);
         source.addValue("startPlace", startPlace);
         source.addValue("username", username);
         source.addValue("totalPrice", totalPrice);
         source.addValue("phone", phone);
+        source.addValue("email", email);
         jdbc.update(sql, source);
 
         sql = "SELECT LAST_INSERT_ID() as last_num LIMIT 1;";

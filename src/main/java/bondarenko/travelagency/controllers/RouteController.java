@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.swing.text.StyledEditorKit;
+import java.util.List;
 
 @Controller
 @RequestMapping("/admin")
@@ -24,10 +25,16 @@ public class RouteController {
     @Autowired
     CustomerService customerService;
 
-    @GetMapping("/routes")
+    @GetMapping("/routes/")
     public String getRoutes(Model model) {
-        model.addAttribute("routes", customerService.getRoutes());
-        //model.addAttribute("images", imageService.getImageForFindList("route_image"));
+        model.addAttribute("routes", customerService.getRoutes(1));
+        return "routes";
+    }
+
+    @GetMapping("/routes/{listAttribute}")
+    public String filtered_index(@PathVariable(name = "listAttribute", required = false) List<String> listAttribute,
+                                 Model model) {
+        model.addAttribute("routes", customerService.getRoutes(listAttribute, 1));
         return "routes";
     }
 

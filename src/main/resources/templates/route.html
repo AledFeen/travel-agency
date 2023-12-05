@@ -27,7 +27,7 @@
                     <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-bs-toggle="dropdown" aria-expanded="false">Admin panel</a>
                     <ul class="dropdown-menu" aria-labelledby="dropdown01">
                         <li><a class="dropdown-item" th:href="@{/admin/hotels}">Hotels</a></li>
-                        <li><a class="dropdown-item" th:href="@{/admin/routes}">Routes</a></li>
+                        <li><a class="dropdown-item" th:href="@{/admin/routes/}">Routes</a></li>
                     </ul>
                 </li>
             </ul>
@@ -76,6 +76,10 @@
                     <textarea type="text" name="description" th:text = "${route.description}" class="form-control" id="description" placeholder="Password"></textarea>
                     <label for="description">Description</label>
                 </div>
+                <div class="form-floating mb-4">
+                    <input type="number" name="isPublish" th:value = "${route.isPublish}" class="form-control" id="publ" placeholder="max">
+                    <label for="publ">Public?</label>
+                </div>
                 <input class="w-100 btn btn-lg btn-light btn-outline-dark mb-4 mt-4" type="submit" value="update"/>
             </form>
             <div class="mt-3 mb-3 ms-5 me-5 text-center" th:each="img : ${images}">
@@ -102,7 +106,7 @@
                     <div class="col h-100">
                         <div class="card pt-3 pb-3">
                             <div class="card-subtitle ms-3" th:text="${'id: ' + reservation.id}"></div>
-                            <div class="card-subtitle ms-3" ><a th:text="${'idHotel: ' + reservation.idHotel}" class="text-dark" href="#"></a></div>
+                            <div class="card-subtitle ms-3" ><a th:text="${'idHotel: ' + reservation.idHotel}" class="text-dark" th:href="@{/admin/hotel/{idHotel}(idHotel=${reservation.idHotel})}"></a></div>
                             <div class="card-subtitle ms-3" th:text="${'min price: ' + reservation.minPrice}"></div>
                             <div class="card-subtitle ms-3" th:text="${'max price: ' + reservation.maxPrice}"></div>
                             <form method="post" action="/admin/reservation/delete">

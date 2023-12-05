@@ -98,32 +98,52 @@ public class CustomerService {
         return totalPrice;
     }
 
-    public void saveDeal (ChangedList changedList, int idRoute, int startPlace, String username, String phone) {
-        customerRepository.saveDeal(changedList, idRoute, startPlace, username, countTotalPrice(changedList, idRoute), phone);
+    public void saveDeal (ChangedList changedList, int idRoute, int startPlace, String username, String phone, String email) {
+        customerRepository.saveDeal(changedList, idRoute, startPlace, username, countTotalPrice(changedList, idRoute), phone, email);
     }
 
-    public List<RouteDto> getRoutes() {
+    public List<RouteDto> getRoutes(int isForCostumer) {
         List<RouteDto> resultList = new ArrayList<>();
         var routes = routeRepository.getRouteList();
         for(var item : routes) {
-            var reservations = reservationRepository.getReservationListByRouteId(item.getIdRoute());
-            RouteDto routeDto = new RouteDto();
-            routeDto.setRoute(item);
-            routeDto.setReservations(getDtoReservationsNoImage(reservations));
-            resultList.add(routeDto);
+            if (isForCostumer == 0) {
+                if (item.getIsPublish() == 1) {
+                    var reservations = reservationRepository.getReservationListByRouteId(item.getIdRoute());
+                    RouteDto routeDto = new RouteDto();
+                    routeDto.setRoute(item);
+                    routeDto.setReservations(getDtoReservationsNoImage(reservations));
+                    resultList.add(routeDto);
+                }
+            } else {
+                var reservations = reservationRepository.getReservationListByRouteId(item.getIdRoute());
+                RouteDto routeDto = new RouteDto();
+                routeDto.setRoute(item);
+                routeDto.setReservations(getDtoReservationsNoImage(reservations));
+                resultList.add(routeDto);
+            }
         }
         return resultList;
     }
 
-    public List<RouteDto> getRoutes(List<String> attributes) {
+    public List<RouteDto> getRoutes(List<String> attributes, int isForCostumer) {
         List<RouteDto> firstList = new ArrayList<>();
         var routes = routeRepository.getRouteList();
         for(var item : routes) {
-            var reservations = reservationRepository.getReservationListByRouteId(item.getIdRoute());
-            RouteDto routeDto = new RouteDto();
-            routeDto.setRoute(item);
-            routeDto.setReservations(getDtoReservationsNoImage(reservations));
-            firstList.add(routeDto);
+            if (isForCostumer == 0) {
+                if (item.getIsPublish() == 1) {
+                    var reservations = reservationRepository.getReservationListByRouteId(item.getIdRoute());
+                    RouteDto routeDto = new RouteDto();
+                    routeDto.setRoute(item);
+                    routeDto.setReservations(getDtoReservationsNoImage(reservations));
+                    firstList.add(routeDto);
+                }
+            } else {
+                var reservations = reservationRepository.getReservationListByRouteId(item.getIdRoute());
+                RouteDto routeDto = new RouteDto();
+                routeDto.setRoute(item);
+                routeDto.setReservations(getDtoReservationsNoImage(reservations));
+                firstList.add(routeDto);
+            }
         }
         List<String> countries = new ArrayList<>();
         List<Integer> ranks = new ArrayList<>();
