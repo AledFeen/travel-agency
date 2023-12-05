@@ -223,7 +223,7 @@
                     <select class="form-select" id="floatingFood" aria-label="Floating label select example"
                             th:field="*{changeDtoList[__${dtoIndex.index}__].idFoodType}">
 
-                        <option th:each="item : ${d.foodTypes}" th:value="${item.idFoodType}"
+                        <option th:each="item : ${d.foodTypes}" th:value="${item.id}"
                                 th:text="${item.name}"></option>
                     </select>
                     <label for="floatingFood">Choose food type</label>
