@@ -2,6 +2,7 @@ package bondarenko.travelagency.controllers;
 
 import bondarenko.travelagency.models.Route;
 import bondarenko.travelagency.repositories.ReservationRepository;
+import bondarenko.travelagency.repositories.ReviewRepository;
 import bondarenko.travelagency.repositories.RouteRepository;
 import bondarenko.travelagency.services.CustomerService;
 import bondarenko.travelagency.services.ImageService;
@@ -11,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.swing.text.StyledEditorKit;
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -24,6 +26,8 @@ public class RouteController {
     ImageService imageService;
     @Autowired
     CustomerService customerService;
+    @Autowired
+    ReviewRepository reviewRepository;
 
     @GetMapping("/routes/")
     public String getRoutes(Model model) {
@@ -50,10 +54,12 @@ public class RouteController {
     }
 
     @GetMapping("/route/{routeId}")
-    public String getRoute(@PathVariable("routeId") int id, Model model) {
+    public String getRoute(@PathVariable("routeId") int id, Model model, Principal principal) {
         model.addAttribute("route", routeRepository.getRouteById(id));
         model.addAttribute("reservations", reservationRepository.getReservationListByRouteId(id));
         model.addAttribute("images", imageService.getListImagesByParentId(id, "route_image"));
+        model.addAttribute("reviews", reviewRepository.getReviewsByRouteId(id));
+        model.addAttribute("username", principal.getName());
         return "route";
     }
 

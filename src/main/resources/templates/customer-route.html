@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -27,7 +27,7 @@
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{/index}">Profile</a>
                 </li>
-                <li class="nav-item dropdown">
+                <li class="nav-item dropdown" sec:authorize="hasRole('ROLE_ADMIN')">
                     <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-bs-toggle="dropdown"
                        aria-expanded="false">Admin panel</a>
                     <ul class="dropdown-menu" aria-labelledby="dropdown01">
@@ -240,6 +240,58 @@
             <button type="submit" class="btn btn-light btn-outline-dark btn-lg w-75">Checkout</button>
         </div>
     </form>
+    <h3 class="mb3 mt-3 text-center">Comments</h3>
+
+    <div th:if="${username != null}">
+        <form th:action="@{/route/review/add}" method="post">
+            <input type="hidden" name="idRoute" th:value="${route.idRoute}">
+            <input type="hidden" name="login" th:value="${username}">
+            <div class="form-floating mb-3 mt-3">
+                <input type="number" name="rank" class="form-control" id="name" placeholder="">
+                <label for="name">Rank</label>
+            </div>
+            <div class="form-floating mb-3 mt-3">
+                <input type="text" name="description" class="form-control" id="desc" placeholder="">
+                <label for="desc">Description</label>
+            </div>
+
+            <div class="d-flex flex-row justify-content-center mt-3 mb-3">
+                <button type="submit" class="btn btn-light btn-outline-dark btn-lg w-75">Add</button>
+            </div>
+        </form>
+    </div>
+
+
+    <h4 class="mb3 mt-3 text-center">List comments</h4>
+
+    <div class="card mb3" th:each="item : ${reviews}">
+        <div class="card-body">
+            <div class="d-flex flex-row justify-content-between">
+                <div th:text="${item.login}"></div>
+                <div>
+                    <div th:text="${'First name: ' + item.firstName}"></div>
+                    <div th:text="${' Second name: ' + item.secondName}"></div>
+                </div>
+            </div>
+            <div th:text="${item.rank}"></div>
+            <div th:text="${item.description}"></div>
+            <div th:if="${username != null}">
+                <div th:if="${username == item.login}">
+                    <form th:action="@{/admin/route/review/delete}" method="post">
+                        <input type="hidden" name="idReview" th:value="${item.idReview}">
+                        <input type="hidden" name="idRoute" th:value="${item.idRoute}">
+                        <div class="d-flex flex-row justify-content-center mt-3 mb-3">
+                            <input class="w-75 btn btn-light btn-outline-dark" type="submit" value="delete"/>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
 </div><!-- Container block -->
 
 <footer class="text-muted py-5 bg-dark"> <!-- Footer -->

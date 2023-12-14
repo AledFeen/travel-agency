@@ -5,16 +5,20 @@ import bondarenko.travelagency.models.dto.ChangedList;
 import bondarenko.travelagency.models.dto.ReservationDto;
 import bondarenko.travelagency.repositories.CustomerRepository;
 import bondarenko.travelagency.repositories.ReservationRepository;
+import bondarenko.travelagency.repositories.ReviewRepository;
 import bondarenko.travelagency.repositories.RouteRepository;
 import bondarenko.travelagency.services.CustomerService;
 import bondarenko.travelagency.services.ImageService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class IndexController {
@@ -29,6 +33,8 @@ public class IndexController {
     CustomerService customerService;
     @Autowired
     CustomerRepository customerRepository;
+    @Autowired
+    ReviewRepository reviewRepository;
 
 
     @GetMapping("/")
@@ -40,10 +46,15 @@ public class IndexController {
     }
 
     @GetMapping("/route/{routeId}")
-    public String getRoute(@PathVariable("routeId") int id, Model model) {
+    public String getRoute(@PathVariable("routeId") int id, Model model, Principal principal) {
         model.addAttribute("route", routeRepository.getRouteById(id));
         model.addAttribute("images", imageService.getListImagesByParentId(id, "route_image"));
         List<ReservationDto> reservations = customerService.getReservationDtoList(reservationRepository.getReservationListByRouteId(id));
+        model.addAttribute("reviews", reviewRepository.getReviewsByRouteId(id));
+        if(principal != null) {
+            model.addAttribute("username", principal.getName());
+        }
+
         model.addAttribute("dto", reservations);
         ChangedList changedList = new ChangedList();
         for(var item : reservations) {

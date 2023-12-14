@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -8,8 +8,11 @@
     <meta name="generator" content="Hugo 0.84.0">
     <title>Route</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+            integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
+            crossorigin="anonymous"></script>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -23,8 +26,9 @@
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{/index}">Profile</a>
                 </li>
-                <li class="nav-item dropdown active">
-                    <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-bs-toggle="dropdown" aria-expanded="false">Admin panel</a>
+                <li class="nav-item dropdown active" sec:authorize="hasRole('ROLE_ADMIN')">
+                    <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-bs-toggle="dropdown"
+                       aria-expanded="false">Admin panel</a>
                     <ul class="dropdown-menu" aria-labelledby="dropdown01">
                         <li><a class="dropdown-item" th:href="@{/admin/hotels}">Hotels</a></li>
                         <li><a class="dropdown-item" th:href="@{/admin/routes/}">Routes</a></li>
@@ -43,41 +47,50 @@
                 <h1 class="h3 fw-normal" th:text="${route.rName}"></h1>
                 <input type="hidden" name="idRoute" th:value="${route.idRoute}"/>
                 <div class="form-floating mb-4 mt-4">
-                    <input type="text" name="rName" th:value = "${route.rName}" class="form-control" id="name" placeholder="name">
+                    <input type="text" name="rName" th:value="${route.rName}" class="form-control" id="name"
+                           placeholder="name">
                     <label for="name">Route name</label>
                 </div>
                 <div class="form-floating mb-4 mt-4">
-                    <input type="text" name="peopleCount" th:value = "${route.peopleCount}" class="form-control" id="count" placeholder="name">
+                    <input type="text" name="peopleCount" th:value="${route.peopleCount}" class="form-control"
+                           id="count" placeholder="name">
                     <label for="count">People count</label>
                 </div>
                 <div class="form-floating mb-4">
-                    <input type="text" name="minPrice" th:value = "${route.minPrice}" class="form-control" id="minPrice" placeholder="min">
+                    <input type="text" name="minPrice" th:value="${route.minPrice}" class="form-control" id="minPrice"
+                           placeholder="min">
                     <label for="minPrice">Min price</label>
                 </div>
                 <div class="form-floating mb-4">
-                    <input type="text" name="maxPrice" th:value = "${route.maxPrice}" class="form-control" id="maxPrice" placeholder="max">
+                    <input type="text" name="maxPrice" th:value="${route.maxPrice}" class="form-control" id="maxPrice"
+                           placeholder="max">
                     <label for="maxPrice">Max price</label>
                 </div>
                 <div class="form-floating mb-4">
-                    <input type="text" name="transportPrice" th:value = "${route.transportPrice}" class="form-control" id="totalPrice" placeholder="max">
+                    <input type="text" name="transportPrice" th:value="${route.transportPrice}" class="form-control"
+                           id="totalPrice" placeholder="max">
                     <label for="totalPrice">Transport price</label>
                 </div>
                 <div class="d-flex flex-row justify-content-between" style="margin-left: 25%; margin-right: 25%">
                     <div class="form-floating">
-                        <input type="date" class="form-control"name="startData" th:value = "${route.startData}" id="startDate"/>
+                        <input type="date" class="form-control" name="startData" th:value="${route.startData}"
+                               id="startDate"/>
                         <label for="startDate">Start date</label>
                     </div>
                     <div class="form-floating">
-                        <input type="date" class="form-control" name="endData" th:value = "${route.endData}"  id="endDate"/><br/><br/>
+                        <input type="date" class="form-control" name="endData" th:value="${route.endData}"
+                               id="endDate"/><br/><br/>
                         <label for="endDate">End date</label>
                     </div>
                 </div>
                 <div class="form-floating mb-4">
-                    <textarea type="text" name="description" th:text = "${route.description}" class="form-control" id="description" placeholder="Password"></textarea>
+                    <textarea type="text" name="description" th:text="${route.description}" class="form-control"
+                              id="description" placeholder="Password"></textarea>
                     <label for="description">Description</label>
                 </div>
                 <div class="form-floating mb-4">
-                    <input type="number" name="isPublish" th:value = "${route.isPublish}" class="form-control" id="publ" placeholder="max">
+                    <input type="number" name="isPublish" th:value="${route.isPublish}" class="form-control" id="publ"
+                           placeholder="max">
                     <label for="publ">Public?</label>
                 </div>
                 <input class="w-100 btn btn-lg btn-light btn-outline-dark mb-4 mt-4" type="submit" value="update"/>
@@ -97,16 +110,20 @@
                     <input type="file" name="file" class="form-control" id="inputGroupFile01">
                     <input type="hidden" name="idParent" th:value="${route.idRoute}">
                     <input type="hidden" name="table" th:value="route_image"/>
-                    <input class="w-100 btn btn-lg btn-light btn-outline-dark mb-4 mt-4" type="submit" value="Add image"/>
+                    <input class="w-100 btn btn-lg btn-light btn-outline-dark mb-4 mt-4" type="submit"
+                           value="Add image"/>
                 </div>
             </form>
             <h3 class="text-center">Reservations</h3>
-            <div  class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 ms-5 me-5 mb-3 mt-3 text-start">
-                <div th:each = "reservation : ${reservations}"> <!-- More block -->
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 ms-5 me-5 mb-3 mt-3 text-start">
+                <div th:each="reservation : ${reservations}"> <!-- More block -->
                     <div class="col h-100">
                         <div class="card pt-3 pb-3">
                             <div class="card-subtitle ms-3" th:text="${'id: ' + reservation.id}"></div>
-                            <div class="card-subtitle ms-3" ><a th:text="${'idHotel: ' + reservation.idHotel}" class="text-dark" th:href="@{/admin/hotel/{idHotel}(idHotel=${reservation.idHotel})}"></a></div>
+                            <div class="card-subtitle ms-3"><a th:text="${'idHotel: ' + reservation.idHotel}"
+                                                               class="text-dark"
+                                                               th:href="@{/admin/hotel/{idHotel}(idHotel=${reservation.idHotel})}"></a>
+                            </div>
                             <div class="card-subtitle ms-3" th:text="${'min price: ' + reservation.minPrice}"></div>
                             <div class="card-subtitle ms-3" th:text="${'max price: ' + reservation.maxPrice}"></div>
                             <form method="post" action="/admin/reservation/delete">
@@ -120,9 +137,33 @@
                     </div>
                 </div><!-- More block -->
             </div>
-            <a th:href="@{/admin/reservation/add/{idRoute}(idRoute=${route.idRoute})}" class="w-100 btn btn-lg btn-light btn-outline-dark mb-4 mt-4" type="submit">Add reservation</a>
+            <a th:href="@{/admin/reservation/add/{idRoute}(idRoute=${route.idRoute})}"
+               class="w-100 btn btn-lg btn-light btn-outline-dark mb-4 mt-4" type="submit">Add reservation</a>
         </div>
     </div> <!-- Route block -->
+    <h3 class="mb3 mt-3 text-center">Comments</h3>
+
+    <div class="card mb3" th:each="item : ${reviews}">
+        <div class="card-body">
+            <div class="d-flex flex-row justify-content-between">
+                <div th:text="${item.login}"></div>
+                <div>
+                    <div th:text="${'First name: ' + item.firstName}"></div>
+                    <div th:text="${' Second name: ' + item.secondName}"></div>
+                </div>
+            </div>
+            <div th:text="${item.rank}"></div>
+            <div th:text="${item.description}"></div>
+            <form th:action="@{/route/review/delete}" method="post">
+                <input type="hidden" name="idReview" th:value="${item.idReview}">
+                <input type="hidden" name="idRoute" th:value="${item.idRoute}">
+                <div class="d-flex flex-row justify-content-center mt-3 mb-3">
+                    <input class="w-75 btn btn-light btn-outline-dark" type="submit" value="delete"/>
+                </div>
+            </form>
+        </div>
+    </div>
+
 </div><!-- Container block -->
 
 <footer class="text-muted py-5 bg-dark"> <!-- Footer -->
