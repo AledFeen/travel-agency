@@ -80,7 +80,7 @@
                         <span th:text="${d.reservation.endDate}"></span></div>
                 </div>
                 <div class="w-50">
-                    <div th:id="${d.hotel.hotelName + d.hotel.id}" class="carousel slide" data-ride="carousel">
+                    <div th:id="${'res' + d.hotel.id}" class="carousel slide" data-ride="carousel">
                         <div class="carousel-inner">
                             <th:block th:each="himg, inf : ${d.hotelImages}">
                                 <span th:if="${himg.getSize() == 0}">
@@ -103,12 +103,12 @@
                             </th:block>
                         </div>
                         <button class="carousel-control-prev" type="button"
-                                th:data-bs-target="${'#' + d.hotel.hotelName + d.hotel.id}" data-bs-slide="prev">
+                                th:data-bs-target="${'#res' + d.hotel.id}" data-bs-slide="prev">
                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                             <span class="visually-hidden">Previous</span>
                         </button>
                         <button class="carousel-control-next" type="button"
-                                th:data-bs-target="${'#' + d.hotel.hotelName + d.hotel.id}" data-bs-slide="next">
+                                th:data-bs-target="${'#res' + d.hotel.id}" data-bs-slide="next">
                             <span class="carousel-control-next-icon" aria-hidden="true"></span>
                             <span class="visually-hidden">Next</span>
                         </button>
@@ -265,15 +265,13 @@
     <h4 class="mb3 mt-3 text-center">List comments</h4>
 
     <div class="card mb3" th:each="item : ${reviews}">
-        <div class="card-body">
+        <div class="card-body p-5">
             <div class="d-flex flex-row justify-content-between">
-                <div th:text="${item.login}"></div>
+                <div class="fw-bold" th:text="${'Mark: ' + item.rank}"></div>
                 <div>
-                    <div th:text="${'First name: ' + item.firstName}"></div>
-                    <div th:text="${' Second name: ' + item.secondName}"></div>
+                    <div th:text="${'Name: ' + item.firstName + ' ' + item.secondName}"></div>
                 </div>
             </div>
-            <div th:text="${item.rank}"></div>
             <div th:text="${item.description}"></div>
             <div th:if="${username != null}">
                 <div th:if="${username == item.login}">
@@ -290,18 +288,23 @@
     </div>
 
 
-
-
 </div><!-- Container block -->
 
-<footer class="text-muted py-5 bg-dark"> <!-- Footer -->
+<footer class="text-muted py-3 bg-dark"> <!-- Footer -->
     <div class="container">
-        <p class="float-end mb-1">
-            <a class="link-dark" href="#">Back to top</a>
-        </p>
-        <p class="mb-1">Album example is &copy; Bootstrap, but please download and customize it for yourself!</p>
-        <p class="mb-0">New to Bootstrap? <a href="/">Visit the homepage</a> or read our <a
-                href="../getting-started/introduction/">getting started guide</a>.</p>
+
+        <div class="d-flex flex-column float-end mb-1">
+            <a class="link-light mb-3" href="#">Back to top</a>
+            <a class="link-light" th:href="@{/}">Back to routes</a>
+        </div>
+
+
+        <div>
+            <h5 class="text-light align-content-center">Contact info</h5>
+            <div class="mt-2 mb-2">Adress: Ukraine, Kyiv</div>
+            <div class="mb-2">Телефон: +38 (XXX) XXX-XX-XX</div>
+            <div>Email: agency@gmail.com</div>
+        </div>
     </div>
 </footer> <!-- Footer -->
 

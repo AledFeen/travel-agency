@@ -54,7 +54,7 @@
                     <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
                         <li class="m-2">
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="country" value="ukraine" id="country1">
+                                <input class="form-check-input" type="checkbox" name="country" value="Ukraine" id="country1">
                                 <label class="form-check-label" for="country1">
                                     Ukraine
                                 </label>
@@ -62,9 +62,17 @@
                         </li>
                         <li class="m-2">
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="country" value="england" id="country2">
+                                <input class="form-check-input" type="checkbox" name="country" value="Turkish" id="country2">
                                 <label class="form-check-label" for="country2">
-                                    England
+                                    Turkish
+                                </label>
+                            </div>
+                        </li>
+                        <li class="m-2">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="country" value="Egypt" id="country3">
+                                <label class="form-check-label" for="country3">
+                                    Egypt
                                 </label>
                             </div>
                         </li>
@@ -170,9 +178,6 @@
                             </div>
                             <div class="card-body">
                                 <div class="card-title text-center"><a class="link-dark" th:text="${route.route.rName}" th:href="@{/route/{routeId}(routeId=${route.route.idRoute})}">Route one</a></div>
-                                <div class="card-text text-truncate" th:inline="text">
-                                    <span th:each="re : ${route.reservations}" th:text="${re.country.countryName + ' '}"></span>
-                                </div>
                                 <div class="card-text"><span th:text="${'Date: ' + route.route.startData}"></span> - <span th:text="${route.route.endData}"></span> </div>
                                 <div class="card-text text-dark fw-bold"><span th:text="${'Price: ' +route.route.minPrice}"></span> - <span th:text="${route.route.maxPrice}"></span></div>
                                 <p class="card-text small text-truncate" th:text="${route.route.description}"></p>
