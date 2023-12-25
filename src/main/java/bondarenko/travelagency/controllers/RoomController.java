@@ -47,5 +47,4 @@ public class RoomController {
         roomRepository.deleteRoom(room.getIdRoom());
         return "redirect:/admin/hotel/" + room.getIdHotel();
     }
-
 }

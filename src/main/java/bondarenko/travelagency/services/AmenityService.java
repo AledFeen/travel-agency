@@ -19,7 +19,6 @@ public class AmenityService {
                     break;
                 }
             }
-
             if (!foundMatch) {
                 resultList.add(obj1);
             }

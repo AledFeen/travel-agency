@@ -11,7 +11,6 @@ import java.util.List;
 @AllArgsConstructor
 public class ChangedList {
     List<ChangeDto> changeDtoList = new ArrayList<>();
-
     public void addChangeItem(ChangeDto item) {
         this.changeDtoList.add(item);
     }
