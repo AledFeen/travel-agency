@@ -1,0 +1,180 @@
+CREATE TRIGGER AfterInsertHotelFoodtype
+AFTER Insert ON Hotel_Foodtype
+FOR EACH ROW
+BEGIN
+    -- Обновить minPriceReserv в таблице Reservation
+    UPDATE Reservation
+    SET minPriceReserv = ((
+        SELECT MIN(dailyPrice) FROM Room WHERE idHotel = NEW.idHotel
+    ) + (
+        SELECT MIN(price) FROM Hotel_FoodType WHERE idHotel = NEW.idHotel
+    )) * DATEDIFF(endData, startData)
+    WHERE idHotel = NEW.idHotel;
+
+    -- Обновить maxPriceReserv в таблице Reservation
+    UPDATE Reservation
+    SET maxPriceReserv = ((
+        SELECT MAX(dailyPrice) FROM Room WHERE idHotel = NEW.idHotel
+    ) + (
+        SELECT MAX(price) FROM Hotel_FoodType WHERE idHotel = NEW.idHotel
+    )) * DATEDIFF(endData, startData)
+    WHERE idHotel = NEW.idHotel;
+END //
+
+DELIMITER //
+CREATE TRIGGER AfterDeleteHotelFoodtype
+AFTER DELETE ON Hotel_Foodtype
+FOR EACH ROW
+BEGIN
+    -- Обновить minPriceReserv в таблице Reservation
+    UPDATE Reservation
+    SET minPriceReserv = ((
+        SELECT MIN(dailyPrice) FROM Room WHERE idHotel = OLD.idHotel
+    ) + (
+        SELECT MIN(price) FROM Hotel_FoodType WHERE idHotel = OLD.idHotel
+    )) * DATEDIFF(endData, startData)
+    WHERE idHotel = OLD.idHotel;
+
+    -- Обновить maxPriceReserv в таблице Reservation
+    UPDATE Reservation
+    SET maxPriceReserv = ((
+        SELECT MAX(dailyPrice) FROM Room WHERE idHotel = OLD.idHotel
+    ) + (
+        SELECT MAX(price) FROM Hotel_FoodType WHERE idHotel = OLD.idHotel
+    )) * DATEDIFF(endData, startData)
+    WHERE idHotel = OLD.idHotel;
+END 
+//
+
+
+CREATE TRIGGER AfterUpdateHotelFoodtype
+AFTER UPDATE ON Hotel_Foodtype
+FOR EACH ROW
+BEGIN
+    -- Обновить minPriceReserv в таблице Reservation
+    UPDATE Reservation
+    SET minPriceReserv = ((
+        SELECT MIN(dailyPrice) FROM Room WHERE idHotel = NEW.idHotel
+    ) + (
+        SELECT MIN(price) FROM Hotel_FoodType WHERE idHotel = NEW.idHotel
+    )) * DATEDIFF(endData, startData)
+    WHERE idHotel = NEW.idHotel;
+
+    -- Обновить maxPriceReserv в таблице Reservation
+    UPDATE Reservation
+    SET maxPriceReserv = ((
+        SELECT MAX(dailyPrice) FROM Room WHERE idHotel = NEW.idHotel
+    ) + (
+        SELECT MAX(price) FROM Hotel_FoodType WHERE idHotel = NEW.idHotel
+    )) * DATEDIFF(endData, startData)
+    WHERE idHotel = NEW.idHotel;
+END 
+
+CREATE TRIGGER AfterUpdateRoom
+AFTER UPDATE ON Room
+FOR EACH ROW
+BEGIN
+    -- Обновить minPriceReserv в таблице Reservation
+    UPDATE Reservation
+    SET minPriceReserv = (
+        (SELECT MIN(dailyPrice) FROM Room WHERE idHotel = NEW.idHotel) 
+        + (SELECT MIN(price) FROM Hotel_FoodType WHERE idHotel = NEW.idHotel)) 
+        * DATEDIFF(endData, startData)
+    WHERE idHotel = NEW.idHotel;
+
+    -- Обновить maxPriceReserv в таблице Reservation
+    UPDATE Reservation
+    SET maxPriceReserv = ((SELECT MAX(dailyPrice) FROM Room WHERE idHotel = NEW.idHotel) 
+    +  (SELECT MAX(price) FROM Hotel_FoodType WHERE idHotel = NEW.idHotel))
+    * DATEDIFF(endData, startData)
+    WHERE idHotel = NEW.idHotel;
+END 
+
+CREATE TRIGGER AfterInsertRoom
+AFTER INSERT ON Room
+FOR EACH ROW
+BEGIN
+    -- Обновить minPriceReserv в таблице Reservation
+    UPDATE Reservation
+    SET minPriceReserv = (
+        (SELECT MIN(dailyPrice) FROM Room WHERE idHotel = NEW.idHotel) 
+        + (SELECT MIN(price) FROM Hotel_FoodType WHERE idHotel = NEW.idHotel)) 
+        * DATEDIFF(endData, startData)
+    WHERE idHotel = NEW.idHotel;
+
+    -- Обновить maxPriceReserv в таблице Reservation
+    UPDATE Reservation
+    SET maxPriceReserv = ((SELECT MAX(dailyPrice) FROM Room WHERE idHotel = NEW.idHotel) 
+    +  (SELECT MAX(price) FROM Hotel_FoodType WHERE idHotel = NEW.idHotel))
+    * DATEDIFF(endData, startData)
+    WHERE idHotel = NEW.idHotel;
+END
+
+CREATE TRIGGER AfterDeleteRoom
+AFTER DELETE ON Room
+FOR EACH ROW
+BEGIN
+    -- Обновить minPriceReserv в таблице Reservation
+    UPDATE Reservation
+    SET minPriceReserv = (
+        (SELECT MIN(dailyPrice) FROM Room WHERE idHotel = OLD.idHotel) 
+        + (SELECT MIN(price) FROM Hotel_FoodType WHERE idHotel = OLD.idHotel)) 
+        * DATEDIFF(endData, startData)
+    WHERE idHotel = OLD.idHotel;
+
+    -- Обновить maxPriceReserv в таблице Reservation
+    UPDATE Reservation
+    SET maxPriceReserv = ((SELECT MAX(dailyPrice) FROM Room WHERE idHotel = OLD.idHotel) 
+    +  (SELECT MAX(price) FROM Hotel_FoodType WHERE idHotel = OLD.idHotel))
+    * DATEDIFF(endData, startData)
+    WHERE idHotel = OLD.idHotel;
+END
+
+CREATE TRIGGER UpdateReservationAfterInsertRouteReservation
+AFTER Insert ON route_reservation
+FOR EACH ROW
+BEGIN
+	declare newIdHotel INT;
+    set newidHotel = (select r.idHotel from reservation r inner join route_reservation rr where rr.idRoute = new.idRoute LIMIT 1);
+    -- Обновить minPriceReserv в таблице Reservation
+    UPDATE Reservation
+    SET minPriceReserv = ((
+        SELECT MIN(dailyPrice) FROM Room WHERE idHotel = newidHotel
+    ) + (
+        SELECT MIN(price) FROM Hotel_FoodType WHERE idHotel = newidHotel
+    )) * DATEDIFF(endData, startData)
+    WHERE idHotel = newidHotel;
+
+    -- Обновить maxPriceReserv в таблице Reservation
+    UPDATE Reservation
+    SET maxPriceReserv = ((
+        SELECT MAX(dailyPrice) FROM Room WHERE idHotel = newidHotel
+    ) + (
+        SELECT MAX(price) FROM Hotel_FoodType WHERE idHotel = newidHotel
+    )) * DATEDIFF(endData, startData)
+    WHERE idHotel = newidHotel;
+
+
+CREATE TRIGGER UpdateReservationAfterDeleteRouteReservation
+AFTER DELETE ON route_reservation
+FOR EACH ROW
+BEGIN
+	declare newIdHotel INT;
+    set newidHotel = (select r.idHotel from reservation r inner join route_reservation rr where rr.idRoute = old.idRoute LIMIT 1);
+    -- Обновить minPriceReserv в таблице Reservation
+    UPDATE Reservation
+    SET minPriceReserv = ((
+        SELECT MIN(dailyPrice) FROM Room WHERE idHotel = newidHotel
+    ) + (
+        SELECT MIN(price) FROM Hotel_FoodType WHERE idHotel = newidHotel
+    )) * DATEDIFF(endData, startData)
+    WHERE idHotel = newidHotel;
+
+    -- Обновить maxPriceReserv в таблице Reservation
+    UPDATE Reservation
+    SET maxPriceReserv = ((
+        SELECT MAX(dailyPrice) FROM Room WHERE idHotel = newidHotel
+    ) + (
+        SELECT MAX(price) FROM Hotel_FoodType WHERE idHotel = newidHotel
+    )) * DATEDIFF(endData, startData)
+    WHERE idHotel = newidHotel;

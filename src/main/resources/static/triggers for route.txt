@@ -1,0 +1,141 @@
+DELIMITER //
+CREATE TRIGGER AfterUpdateReservation
+AFTER UPDATE ON Reservation
+FOR EACH ROW
+BEGIN
+    DECLARE totalMinReservePrice INT;
+    DECLARE totalMaxReservePrice INT;
+    
+    -- Сложить все минимальные суммы для данного idRoute
+    SELECT SUM(minPriceReserv) INTO totalMinReservePrice
+    FROM (
+        SELECT r.minPriceReserv
+        FROM Route_Reservation rr
+        JOIN Reservation r ON rr.idReservation = r.idReservation
+        WHERE rr.idRoute IN (SELECT idRoute FROM Route_Reservation WHERE idReservation = NEW.idReservation)
+        GROUP BY rr.idRoute, r.minPriceReserv
+    ) AS minPrices;
+    
+    -- Сложить все максимальные суммы для данного idRoute
+    SELECT SUM(maxPriceReserv) INTO totalMaxReservePrice
+    FROM (
+        SELECT r.maxPriceReserv
+        FROM Route_Reservation rr
+        JOIN Reservation r ON rr.idReservation = r.idReservation
+        WHERE rr.idRoute IN (SELECT idRoute FROM Route_Reservation WHERE idReservation = NEW.idReservation)
+        GROUP BY rr.idRoute, r.maxPriceReserv
+    ) AS maxPrices;
+    
+    -- Обновить соответствующие поля Route
+    UPDATE Route
+    SET minPriceRoute = totalMinReservePrice
+    WHERE idRoute IN (SELECT idRoute FROM Route_Reservation WHERE idReservation = NEW.idReservation);
+    
+    UPDATE Route
+    SET maxPriceRoute = totalMaxReservePrice
+    WHERE idRoute IN (SELECT idRoute FROM Route_Reservation WHERE idReservation = NEW.idReservation);
+END //
+DELIMITER ;
+
+
+DELIMITER //
+
+CREATE TRIGGER AfterUpdateRouteReservation
+AFTER UPDATE ON route_reservation
+FOR EACH ROW
+BEGIN
+    -- Обновить minPriceRoute и maxPriceRoute для каждого связанного с изменением routeId
+    UPDATE Route
+    SET minPriceRoute = (
+        SELECT SUM(r.minPriceReserv)
+        FROM route_reservation rr
+        JOIN Reservation r ON rr.idReservation = r.idReservation
+        WHERE rr.idRoute = OLD.idRoute
+    )
+    WHERE idRoute = OLD.idRoute;
+    
+    UPDATE Route
+    SET maxPriceRoute = (
+        SELECT SUM(r.maxPriceReserv)
+        FROM route_reservation rr
+        JOIN Reservation r ON rr.idReservation = r.idReservation
+        WHERE rr.idRoute = OLD.idRoute
+    )
+    WHERE idRoute = OLD.idRoute;
+    
+    UPDATE Route
+    SET minPriceRoute = (
+        SELECT SUM(r.minPriceReserv)
+        FROM route_reservation rr
+        JOIN Reservation r ON rr.idReservation = r.idReservation
+        WHERE rr.idRoute = NEW.idRoute
+    )
+    WHERE idRoute = NEW.idRoute;
+    
+    UPDATE Route
+    SET maxPriceRoute = (
+        SELECT SUM(r.maxPriceReserv)
+        FROM route_reservation rr
+        JOIN Reservation r ON rr.idReservation = r.idReservation
+        WHERE rr.idRoute = NEW.idRoute
+    )
+    WHERE idRoute = NEW.idRoute;
+END //
+
+DELIMITER ;
+
+
+CREATE TRIGGER AfterInsertRouteReservation
+AFTER Insert ON route_reservation
+FOR EACH ROW
+BEGIN
+    -- Обновить minPriceRoute и maxPriceRoute для каждого связанного с изменением routeId
+    UPDATE Route
+    SET minPriceRoute = (
+        SELECT SUM(r.minPriceReserv)
+        FROM route_reservation rr
+        JOIN Reservation r ON rr.idReservation = r.idReservation
+        WHERE rr.idRoute = NEW.idRoute
+    )
+    WHERE idRoute = NEW.idRoute;
+    
+    UPDATE Route
+    SET maxPriceRoute = (
+        SELECT SUM(r.maxPriceReserv)
+        FROM route_reservation rr
+        JOIN Reservation r ON rr.idReservation = r.idReservation
+        WHERE rr.idRoute = NEW.idRoute
+    )
+    WHERE idRoute = NEW.idRoute;
+END //
+
+DELIMITER ;
+
+
+DELIMITER //
+
+CREATE TRIGGER AfterDeleteRouteReservation
+AFTER DELETE ON route_reservation
+FOR EACH ROW
+BEGIN
+    -- Обновить minPriceRoute и maxPriceRoute для каждого связанного с изменением routeId
+    UPDATE Route
+    SET minPriceRoute = (
+        SELECT SUM(r.minPriceReserv)
+        FROM route_reservation rr
+        JOIN Reservation r ON rr.idReservation = r.idReservation
+        WHERE rr.idRoute = OLD.idRoute
+    )
+    WHERE idRoute = OLD.idRoute;
+    
+    UPDATE Route
+    SET maxPriceRoute = (
+        SELECT SUM(r.maxPriceReserv)
+        FROM route_reservation rr
+        JOIN Reservation r ON rr.idReservation = r.idReservation
+        WHERE rr.idRoute = OLD.idRoute
+    )
+    WHERE idRoute = OLD.idRoute;
+END //
+
+DELIMITER;
